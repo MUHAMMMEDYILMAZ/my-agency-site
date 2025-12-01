@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Phone, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 export default function Header({ locale }: { locale: string }) {
   const [open, setOpen] = useState(false);
@@ -70,7 +71,15 @@ export default function Header({ locale }: { locale: string }) {
         "
       >
         {/* LOGO */}
-        <span className="text-xl font-semibold text-white">Niche Geeky</span>
+<Link href={`/${locale}`}>
+  <Image
+    src="/og-image1.png"   // أو logo.svg
+    alt="CodeAura Logo"
+    width={80}
+    height={30}
+    className="object-contain cursor-pointer"
+  />
+</Link>
 
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-white/85">
