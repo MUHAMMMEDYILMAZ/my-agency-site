@@ -4,11 +4,39 @@ import Link from "next/link";
 import { Phone, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-export default function Header() {
+export default function Header({ locale }: { locale: string }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // CLOSE MENU ON OUTSIDE CLICK
+  const isArabic = locale === "ar";
+
+  const languages = [
+    { code: "en", label: "EN" },
+    { code: "ar", label: "AR" },
+  ];
+
+  const t = isArabic
+    ? {
+        home: "الرئيسية",
+        services: "الخدمات",
+        work: "أعمالنا",
+        reviews: "التقييمات",
+        contact: "تواصل معنا",
+        getStarted: "ابدأ الآن",
+        free: "• مجاني →",
+        whatsapp: "واتساب",
+      }
+    : {
+        home: "Home",
+        services: "Services",
+        work: "Our Work",
+        reviews: "Reviews",
+        contact: "Contact Us",
+        getStarted: "Get Started",
+        free: "• it's free →",
+        whatsapp: "WhatsApp",
+      };
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -17,8 +45,6 @@ export default function Header() {
     }
 
     if (open) document.addEventListener("mousedown", handleClickOutside);
-    else document.removeEventListener("mousedown", handleClickOutside);
-
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
@@ -49,21 +75,44 @@ export default function Header() {
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-white/85">
           <Link href="#" className="hover:text-white relative">
-            Home
+            {t.home}
             <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-white rounded-full" />
           </Link>
-          <Link href="#">Services</Link>
-          <Link href="#">Our Work</Link>
-          <Link href="#">Reviews</Link>
-          <Link href="#">Contact us</Link>
+          <Link href="#">{t.services}</Link>
+          <Link href="#">{t.work}</Link>
+          <Link href="#">{t.reviews}</Link>
+          <Link href="#">{t.contact}</Link>
         </nav>
 
         {/* RIGHT SIDE (DESKTOP) */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
+          {/* LANGUAGES */}
+          <div className="flex items-center gap-2">
+            {languages.map((lang) => (
+              <Link
+                key={lang.code}
+                href={`/${lang.code}`}
+                className={`
+                  px-3 py-1 rounded-full text-xs font-semibold
+                  border transition-all duration-200
+                  ${
+                    locale === lang.code
+                      ? "bg-white text-[#050816] border-white"
+                      : "text-white border-white/30 hover:border-white"
+                  }
+                `}
+              >
+                {lang.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* CALL BUTTON */}
           <button className="h-9 w-9 flex items-center justify-center rounded-full border border-white/20 text-white/80 hover:text-green-400 hover:border-green-400 transition">
             <Phone className="h-4 w-4" />
           </button>
 
+          {/* CTA BUTTON */}
           <button
             className="
               px-5 py-1.5 
@@ -77,14 +126,38 @@ export default function Header() {
               border border-white/20
             "
           >
-            Get Started <span className="text-white/70 ml-1">• it's free →</span>
+            {t.getStarted} <span className="text-white/70 ml-1">{t.free}</span>
           </button>
         </div>
 
-        {/* MOBILE HAMBURGER */}
-        <button className="md:hidden text-white" onClick={() => setOpen(!open)}>
-          {open ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
-        </button>
+        {/* MOBILE LANGUAGE BUTTONS (NEXT TO MENU) */}
+        <div className="md:hidden flex items-center gap-2">
+          {languages.map((lang) => (
+            <Link
+              key={lang.code}
+              href={`/${lang.code}`}
+              className={`
+                px-2 py-1 rounded-full text-xs font-semibold
+                border transition-all duration-200
+                ${
+                  locale === lang.code
+                    ? "bg-white text-[#050816] border-white"
+                    : "text-white border-white/30 hover:border-white"
+                }
+              `}
+            >
+              {lang.label}
+            </Link>
+          ))}
+
+          {/* MOBILE MENU BUTTON */}
+          <button
+            className="text-white md:hidden"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+          </button>
+        </div>
       </div>
 
       {/* MOBILE MENU */}
@@ -93,8 +166,7 @@ export default function Header() {
           ref={menuRef}
           className="
             mt-4 mx-auto max-w-6xl
-            px-6 py-4
-            rounded-2xl
+            px-6 py-4 rounded-2xl
 
             bg-[rgba(70,70,80,0.35)]
             backdrop-blur-xl
@@ -104,44 +176,16 @@ export default function Header() {
             flex flex-col gap-4 text-white text-sm md:hidden
           "
         >
-          <Link href="#" onClick={() => setOpen(false)}>
-            Home
-          </Link>
-          <Link href="#" onClick={() => setOpen(false)}>
-            Services
-          </Link>
-          <Link href="#" onClick={() => setOpen(false)}>
-            Our Work
-          </Link>
-          <Link href="#" onClick={() => setOpen(false)}>
-            Reviews
-          </Link>
-          <Link href="#" onClick={() => setOpen(false)}>
-            Contact us
-          </Link>
+          <Link href="#" onClick={() => setOpen(false)}>{t.home}</Link>
+          <Link href="#" onClick={() => setOpen(false)}>{t.services}</Link>
+          <Link href="#" onClick={() => setOpen(false)}>{t.work}</Link>
+          <Link href="#" onClick={() => setOpen(false)}>{t.reviews}</Link>
+          <Link href="#" onClick={() => setOpen(false)}>{t.contact}</Link>
 
           <hr className="border-white/10" />
 
           <button className="w-full flex items-center justify-center gap-2 py-2 rounded-full bg-white/10 border border-white/20">
-            <Phone className="h-4 w-4" /> WhatsApp
-          </button>
-
-          <button
-            className="
-              px-5 py-1.5 
-              rounded-full 
-              text-sm font-medium 
-              text-white
-
-              bg-gradient-to-r from-[#764bff] via-[#9b6bff] to-[#5c4bff]
-              shadow-[0_15px_40px_#764bff73]
-
-              border border-white/10
-              hover:brightness-110
-              transition
-            "
-          >
-            Get Started <span className="text-white/70 ml-1">• it's free →</span>
+            <Phone className="h-4 w-4" /> {t.whatsapp}
           </button>
         </div>
       )}

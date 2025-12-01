@@ -2,68 +2,124 @@
 
 import { CheckCircle, Zap, Search, Shield, Code2, Headphones } from "lucide-react";
 
-export default function WhyChooseUs() {
-  const features = [
-    {
-      title: "High Performance Websites",
-      desc: "We build ultra-fast websites using Next.js and modern rendering techniques to achieve top speed scores.",
-      icon: <Zap className="w-6 h-6 text-yellow-300" />,
-      glow: "from-yellow-400/20"
-    },
-    {
-      title: "Advanced SEO Optimization",
-      desc: "Your website is optimized for Google ranking, index speed, and Core Web Vitals to maximize traffic.",
-      icon: <Search className="w-6 h-6 text-blue-300" />,
-      glow: "from-blue-400/20"
-    },
-    {
-      title: "Built With Strong Technologies",
-      desc: "Next.js, Node.js, TailwindCSS, MongoDB — powerful, stable, and scalable technologies for long-term success.",
-      icon: <Code2 className="w-6 h-6 text-purple-300" />,
-      glow: "from-purple-400/20"
-    },
-    {
-      title: "Security & Stability",
-      desc: "We follow modern security practices and structure your backend to ensure maximum stability.",
-      icon: <Shield className="w-6 h-6 text-red-300" />,
-      glow: "from-red-400/20"
-    },
-    {
-      title: "Post-Launch Support",
-      desc: "We provide updates, fixes, improvements, and support even after delivering your project.",
-      icon: <Headphones className="w-6 h-6 text-green-300" />,
-      glow: "from-green-400/20"
-    },
-    {
-      title: "Custom-Tailored Solutions",
-      desc: "Every website is custom designed and built specifically for your business goals — not generic templates.",
-      icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
-      glow: "from-pink-400/20"
-    }
-  ];
+export default function WhyChooseUs({ locale }: { locale: string }) {
+  const isArabic = locale === "ar";
+
+  const t = isArabic
+    ? {
+        badge: "• لماذا نحن؟ •",
+        title: "لماذا يثق العملاء في خدمات تطوير الويب لدينا",
+        subtitle:
+          "نركز على الأداء، جودة التصميم، قوة السيو، والدعم المستمر لضمان نمو موقعك مع عملك.",
+        features: [
+          {
+            title: "مواقع عالية الأداء",
+            desc: "نستخدم Next.js وتقنيات حديثة لضمان سرعة فائقة وتجربة مستخدم ممتازة.",
+            icon: <Zap className="w-6 h-6 text-yellow-300" />,
+            glow: "from-yellow-400/20",
+          },
+          {
+            title: "تحسين متقدم لمحركات البحث",
+            desc: "موقعك مُهيّأ لتحسين الظهور في جوجل وزيادة سرعة الفهرسة وتعزيز الترافيك.",
+            icon: <Search className="w-6 h-6 text-blue-300" />,
+            glow: "from-blue-400/20",
+          },
+          {
+            title: "بُني باستخدام تقنيات قوية",
+            desc: "Next.js وNode.js وTailwindCSS وMongoDB — بنية مستقرة وقابلة للتطوير لسنوات.",
+            icon: <Code2 className="w-6 h-6 text-purple-300" />,
+            glow: "from-purple-400/20",
+          },
+          {
+            title: "أمان واستقرار",
+            desc: "نطبق أفضل ممارسات الأمان ونبني البنية الخلفية بأعلى درجات الاستقرار.",
+            icon: <Shield className="w-6 h-6 text-red-300" />,
+            glow: "from-red-400/20",
+          },
+          {
+            title: "دعم بعد التسليم",
+            desc: "نقدّم تحديثات وإصلاحات وتحسينات حتى بعد إطلاق المشروع.",
+            icon: <Headphones className="w-6 h-6 text-green-300" />,
+            glow: "from-green-400/20",
+          },
+          {
+            title: "حلول مخصصة",
+            desc: "كل موقع نبنيه مصمم خصيصًا لنجاح عملك—not مجرد قوالب جاهزة.",
+            icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
+            glow: "from-pink-400/20",
+          },
+        ],
+      }
+    : {
+        badge: "• Why Choose Us •",
+        title: "Why Clients Trust Our Web Development",
+        subtitle:
+          "We focus on performance, design quality, SEO strength, and long-term support — ensuring your website grows with your business.",
+        features: [
+          {
+            title: "High Performance Websites",
+            desc: "We build ultra-fast websites using Next.js and modern rendering techniques to achieve top speed scores.",
+            icon: <Zap className="w-6 h-6 text-yellow-300" />,
+            glow: "from-yellow-400/20",
+          },
+          {
+            title: "Advanced SEO Optimization",
+            desc: "Your website is optimized for Google ranking, index speed, and Core Web Vitals to maximize traffic.",
+            icon: <Search className="w-6 h-6 text-blue-300" />,
+            glow: "from-blue-400/20",
+          },
+          {
+            title: "Built With Strong Technologies",
+            desc: "Next.js, Node.js, TailwindCSS, MongoDB — powerful, stable, and scalable technologies for long-term success.",
+            icon: <Code2 className="w-6 h-6 text-purple-300" />,
+            glow: "from-purple-400/20",
+          },
+          {
+            title: "Security & Stability",
+            desc: "We follow modern security practices and structure your backend to ensure maximum stability.",
+            icon: <Shield className="w-6 h-6 text-red-300" />,
+            glow: "from-red-400/20",
+          },
+          {
+            title: "Post-Launch Support",
+            desc: "We provide updates, fixes, improvements, and support even after delivering your project.",
+            icon: <Headphones className="w-6 h-6 text-green-300" />,
+            glow: "from-green-400/20",
+          },
+          {
+            title: "Custom-Tailored Solutions",
+            desc: "Every website is custom designed and built specifically for your business goals — not generic templates.",
+            icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
+            glow: "from-pink-400/20",
+          },
+        ],
+      };
 
   return (
-    <section className="relative py-24 text-white bg-[#050816]">
-
+    <section
+      className="why-bg relative py-24 text-white bg-[#050816]"
+      dir={isArabic ? "rtl" : "ltr"}
+    >
       {/* TITLE */}
       <div className="text-center mb-14">
         <span className="px-4 py-1 text-xs rounded-full bg-white/10 border border-white/20 text-purple-200">
-          • Why Choose Us •
+          {t.badge}
         </span>
 
-        <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">
-          Why Clients Trust Our Web Development
-        </h2>
+        <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">{t.title}</h2>
 
         <p className="text-white/60 mt-2 text-sm max-w-xl mx-auto">
-          We focus on performance, design quality, SEO strength, and long-term support — ensuring your website grows with your business.
+          {t.subtitle}
         </p>
       </div>
 
       {/* FEATURES GRID */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
-
-        {features.map((item, i) => (
+      <div
+        className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6 ${
+          isArabic ? "rtl" : ""
+        }`}
+      >
+        {t.features.map((item, i) => (
           <div
             key={i}
             className="
@@ -96,7 +152,6 @@ export default function WhyChooseUs() {
             </div>
           </div>
         ))}
-
       </div>
     </section>
   );

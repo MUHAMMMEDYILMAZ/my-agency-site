@@ -2,75 +2,123 @@
 
 import Image from "next/image";
 
-export default function Services() {
-  const services = [
-    {
-      title: "Landing Page Development",
-      desc: "High-performance landing pages built using Next.js, Tailwind CSS, and smooth UI animations.",
-      img: "/services/Landing-Page.webp",
-      glow: "from-purple-500/20 to-transparent",
-    },
-    {
-      title: "Multi-Page Business Websites",
-      desc: "Fully responsive and SEO-optimized business websites with clean architecture and premium UI.",
-      img: "/services/Multi-Page-Business-Websites.jpg",
-      glow: "from-blue-500/20 to-transparent",
-    },
-    {
-      title: "E-Commerce Store (Next.js + MongoDB)",
-      desc: "Complete online stores with cart, checkout, dashboard, and secure MongoDB database.",
-      img: "/services/E-Commerce-Store.jpg",
-      glow: "from-pink-500/20 to-transparent",
-    },
-    {
-      title: "Custom Dashboards",
-      desc: "Admin dashboards with charts, analytics, authentication, user roles, and more.",
-      img: "/services/Custom-Dashboards.png",
-      glow: "from-green-500/20 to-transparent",
-    },
-    {
-      title: "API & Backend (Node.js)",
-      desc: "Powerful backend services using Node.js, Express, and MongoDB — secure and scalable.",
-      img: "/services/API-Backend.webp",
-      glow: "from-yellow-500/20 to-transparent",
-    },
-    {
-      title: "Custom Solutions",
-      desc: "Custom systems fully designed and developed to match your business needs.",
-      img: "/services/Custom-Solutions.jpg",
-      glow: "from-purple-400/20 to-transparent",
-    },
-  ];
+export default function Services({ locale }: { locale: string }) {
+  const isArabic = locale === "ar";
+
+  const t = isArabic
+    ? {
+        badge: "• خدماتنا •",
+        title: "حلول ويب احترافية",
+        subtitle:
+          "مواقع حديثة، آمنة، وسريعة الأداء مصممة خصيصًا لنجاح أعمالك.",
+        list: [
+          {
+            title: "تطوير صفحات الهبوط",
+            desc: "صفحات هبوط عالية الأداء باستخدام Next.js و Tailwind مع تصميمات تفاعلية سلسة.",
+          },
+          {
+            title: "مواقع أعمال متعددة الصفحات",
+            desc: "مواقع احترافية متجاوبة ومحسّنة لمحركات البحث مع واجهة مستخدم مميزة.",
+          },
+          {
+            title: "متجر إلكتروني (Next.js + MongoDB)",
+            desc: "متاجر كاملة مع السلة والدفع ولوحة التحكم وقاعدة بيانات آمنة.",
+          },
+          {
+            title: "لوحات تحكم مخصصة",
+            desc: "لوحات إدارة متقدمة مع تحليلات ورسوم بيانية وصلاحيات مستخدمين.",
+          },
+          {
+            title: "API و Backend (Node.js)",
+            desc: "خدمات خلفية قوية وآمنة باستخدام Node.js وExpress وMongoDB.",
+          },
+          {
+            title: "حلول مخصصة",
+            desc: "أنظمة كاملة مبنية خصيصًا لتلبية احتياجات عملك.",
+          },
+        ],
+      }
+    : {
+        badge: "• Services •",
+        title: "Professional Web Solutions",
+        subtitle:
+          "Modern, secure, high-performing websites tailored for your business success.",
+        list: [
+          {
+            title: "Landing Page Development",
+            desc: "High-performance landing pages built using Next.js, Tailwind CSS, and smooth UI animations.",
+          },
+          {
+            title: "Multi-Page Business Websites",
+            desc: "Fully responsive and SEO-optimized business websites with premium UI.",
+          },
+          {
+            title: "E-Commerce Store (Next.js + MongoDB)",
+            desc: "Full online stores with cart, checkout, dashboard, and secure MongoDB database.",
+          },
+          {
+            title: "Custom Dashboards",
+            desc: "Admin dashboards with charts, analytics, authentication, and user roles.",
+          },
+          {
+            title: "API & Backend (Node.js)",
+            desc: "Powerful backend services using Node.js, Express, and MongoDB — secure and scalable.",
+          },
+          {
+            title: "Custom Solutions",
+            desc: "Systems fully designed and developed to match your business needs.",
+          },
+        ],
+      };
+
+  // دمج الترجمة مع الصور & الألوان
+  const services = t.list.map((item, index) => ({
+    ...item,
+    img: [
+      "/services/Landing-Page.webp",
+      "/services/Multi-Page-Business-Websites.jpg",
+      "/services/E-Commerce-Store.jpg",
+      "/services/Custom-Dashboards.png",
+      "/services/API-Backend.webp",
+      "/services/Custom-Solutions.jpg",
+    ][index],
+    glow: [
+      "from-purple-500/20 to-transparent",
+      "from-blue-500/20 to-transparent",
+      "from-pink-500/20 to-transparent",
+      "from-green-500/20 to-transparent",
+      "from-yellow-500/20 to-transparent",
+      "from-purple-400/20 to-transparent",
+    ][index],
+  }));
 
   return (
     <section
       className="
-    relative py-24 text-white
-    
-    bg-[#050816]          /* خلفية أساسية سوداء */
-    bg-[url('/services/stars.png')] /* صورة النجوم */
-    bg-cover bg-center bg-no-repeat
+      relative py-24 text-white
+      
+      bg-[#050816]
+      bg-[url('/services/stars.png')]
+      bg-cover bg-center bg-no-repeat
 
-    /* طبقة تغميق فوق النجوم */
-    before:content-['']
-    before:absolute before:inset-0
-    before:bg-[#050816cc]       /* أسود غامق شفاف */
-    before:backdrop-blur-[1px]  /* دمج بسيط */
-    before:z-0
-  "
+      before:content-['']
+      before:absolute before:inset-0
+      before:bg-[#050816cc]
+      before:backdrop-blur-[1px]
+      before:z-0
+    "
+      dir={isArabic ? "rtl" : "ltr"}
     >
       {/* Section Title */}
       <div className="text-center mb-14 relative z-10">
         <span className="px-4 py-1 text-xs rounded-full bg-white/10 border border-white/20 text-purple-200">
-          • Services •
+          {t.badge}
         </span>
 
-        <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">
-          Professional Web Solutions
-        </h2>
+        <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">{t.title}</h2>
 
-        <p className="text-white/60 mt-2 text-sm max-w-xl mx-auto">
-          Modern, secure, and high-performing websites tailored for your business success.
+        <p className="text-white/60 mt-2 text-sm max-w-xl mx-auto px-3">
+          {t.subtitle}
         </p>
       </div>
 
