@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Services({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -92,21 +93,40 @@ export default function Services({ locale }: { locale: string }) {
     ][index],
   }));
 
+  // ⚡ حركة Swirl Animation
+ const cardVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.4,
+    rotate: -25,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.16, 1, 0.3, 1], // EaseOutExpo – متوافق 100%
+    },
+  },
+} as const;
+
+
   return (
     <section
       className="
-      relative py-24 text-white
-      
-      bg-[#050816]
-      bg-[url('/services/stars.png')]
-      bg-cover bg-center bg-no-repeat
-
-      before:content-['']
-      before:absolute before:inset-0
-      before:bg-[#050816cc]
-      before:backdrop-blur-[1px]
-      before:z-0
-    "
+        relative py-24 text-white
+        bg-[#050816]
+        bg-[url('/services/stars.png')]
+        bg-cover bg-center bg-no-repeat
+        before:content-['']
+        before:absolute before:inset-0
+        before:bg-[#050816cc]
+        before:backdrop-blur-[1px]
+        before:z-0
+      "
       dir={isArabic ? "rtl" : "ltr"}
     >
       {/* Section Title */}
@@ -123,10 +143,19 @@ export default function Services({ locale }: { locale: string }) {
       </div>
 
       {/* Cards Grid */}
-      <div className="relative z-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
+      <motion.div
+        className="relative z-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6"
+        initial="hidden"
+whileInView="visible"
+viewport={{ once: true, amount: 0.5 }}
+transition={{ staggerChildren: 0.12 }}
+
+
+      >
         {services.map((service, i) => (
-          <div
+          <motion.div
             key={i}
+            variants={cardVariants}
             className="
               relative group p-6 rounded-3xl
               bg-[#0c0c17]/60 backdrop-blur-xl
@@ -190,9 +219,9 @@ export default function Services({ locale }: { locale: string }) {
                 {service.desc}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

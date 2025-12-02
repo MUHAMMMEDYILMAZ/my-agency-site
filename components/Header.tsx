@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Phone, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Header({ locale }: { locale: string }) {
   const [open, setOpen] = useState(false);
@@ -50,7 +51,10 @@ export default function Header({ locale }: { locale: string }) {
   }, [open]);
 
   return (
-    <header
+    <motion.header
+      initial={{ opacity: 0, y: -15 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.45, ease: "easeOut" }}
       className="
         fixed top-0 left-0 w-full z-50
         px-4 pt-4 
@@ -71,15 +75,15 @@ export default function Header({ locale }: { locale: string }) {
         "
       >
         {/* LOGO */}
-<Link href={`/${locale}`}>
-  <Image
-    src="/og-image1.png"   // أو logo.svg
-    alt="CodeAura Logo"
-    width={80}
-    height={30}
-    className="object-contain cursor-pointer"
-  />
-</Link>
+        <Link href={`/${locale}`}>
+          <Image
+            src="/og-image1.png"
+            alt="CodeAura Logo"
+            width={80}
+            height={30}
+            className="object-contain cursor-pointer"
+          />
+        </Link>
 
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-white/85">
@@ -139,7 +143,7 @@ export default function Header({ locale }: { locale: string }) {
           </button>
         </div>
 
-        {/* MOBILE LANGUAGE BUTTONS (NEXT TO MENU) */}
+        {/* MOBILE LANGUAGE BUTTONS */}
         <div className="md:hidden flex items-center gap-2">
           {languages.map((lang) => (
             <Link
@@ -198,6 +202,6 @@ export default function Header({ locale }: { locale: string }) {
           </button>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }

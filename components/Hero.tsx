@@ -2,6 +2,7 @@
 
 import { ArrowRight, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Hero({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -29,12 +30,17 @@ export default function Hero({ locale }: { locale: string }) {
       };
 
   return (
-    <section
+    <motion.section
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.55, ease: "easeOut" }}
+
       className="
-      bg-[#050816]
+        fade-up
+        bg-[#050816]
         relative text-white 
-        pt-24 sm:pt-28 md:pt-32 
-        pb-20 sm:pb-24
+        pt-32 sm:pt-28 md:pt-32 
+        pb-10 sm:pb-24
         text-center
         bg-gradient-to-br from-[#0a0724] via-[#120a3a] to-[#050816]
         overflow-hidden
@@ -66,9 +72,9 @@ export default function Hero({ locale }: { locale: string }) {
       {/* MAIN TITLE */}
       <h1
         className="
-        text-2xl sm:text-3xl md:text-5xl font-semibold 
-        max-w-3xl mx-auto leading-tight px-4
-      "
+          text-2xl sm:text-3xl md:text-5xl font-semibold 
+          max-w-3xl mx-auto leading-tight px-4
+        "
       >
         {t.title1}{" "}
         <span className="bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent">
@@ -102,12 +108,12 @@ export default function Hero({ locale }: { locale: string }) {
         </button>
       </div>
 
-      {/* ---------------- ICONS SECTION ---------------- */}
+      {/* ICONS */}
       <div className="mt-16">
         <p className="text-white/70 text-sm mb-6">{t.tools}</p>
 
         <div className="flex justify-center flex-wrap gap-6 sm:gap-8 px-4">
-          {[
+          {[ 
             "/html-5-icon.svg",
             "/javascript-logo.svg",
             "/nextjs-icon.png",
@@ -135,6 +141,6 @@ export default function Hero({ locale }: { locale: string }) {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
