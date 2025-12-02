@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
 import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "My Website",
-  description: "Multilingual website using Next.js App Router",
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return children; // لا HTML هنا — Next.js سيستخدم HTML من layout اللغات
+  return children; 
+  // نحن نسمح لـ app/[lang]/layout.tsx أن يتعامل مع <html> و <body> و SEO
 }
