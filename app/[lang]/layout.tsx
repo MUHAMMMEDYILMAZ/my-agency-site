@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة."
     : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance.";
 
-  const baseUrl = "https://codeaura.dev"; // غيّرها لاحقاً عند رفع الموقع
+  const baseUrl = "https://my-agency-site-red.vercel.app"; // غيّرها لاحقاً عند رفع الموقع
 
   return {
     title,
