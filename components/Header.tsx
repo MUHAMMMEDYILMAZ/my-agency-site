@@ -77,7 +77,7 @@ export default function Header({ locale }: { locale: string }) {
         {/* LOGO */}
         <Link href={`/${locale}`}>
           <Image
-            src="/og-image1.png"
+            src="/og-image12.png"
             alt="CodeAura Logo"
             width={80}
             height={30}

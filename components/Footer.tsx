@@ -2,6 +2,7 @@
 
 import { Mail, Phone, Facebook, Instagram, X, Linkedin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -91,24 +92,36 @@ export default function Footer({ locale }: { locale: string }) {
         `}
       >
         {/* COLUMN 1 — Brand */}
-        <div>
-          <h2 className="text-xl font-semibold mb-3">Niche Geeky</h2>
-          <p className="text-white/60 text-sm leading-relaxed mb-6">
-            {t.brandDesc}
-          </p>
+       {/* COLUMN 1 — Brand */}
+<div>
+  {/* BRAND LOGO */}
+  <Link href={`/${locale}`} className="inline-block">
+    <Image
+      src="/og-image12.png"   // ← ضع شعارك هنا
+      alt="Niche Geeky Logo"
+      width={140}
+      height={50}
+      className="object-contain mb-4"
+    />
+  </Link>
 
-          <h4 className="font-medium mb-2">{t.contact}</h4>
+  <p className="text-white/60 text-sm leading-relaxed mb-6">
+    {t.brandDesc}
+  </p>
 
-          <div className="flex items-center gap-3 text-white/70 text-sm mb-2">
-            <Mail className="w-4 h-4" />
-            <span>hellonichegeeky@gmail.com</span>
-          </div>
+  <h4 className="font-medium mb-2">{t.contact}</h4>
 
-          <div className="flex items-center gap-3 text-white/70 text-sm mb-6">
-            <Phone className="w-4 h-4" />
-            <span>+8807683674747</span>
-          </div>
-        </div>
+  <div className="flex items-center gap-3 text-white/70 text-sm mb-2">
+    <Mail className="w-4 h-4" />
+    <span>hellonichegeeky@gmail.com</span>
+  </div>
+
+  <div className="flex items-center gap-3 text-white/70 text-sm mb-6">
+    <Phone className="w-4 h-4" />
+    <span>+8807683674747</span>
+  </div>
+</div>
+
 
         {/* COLUMN 2 — Features */}
         <div>
