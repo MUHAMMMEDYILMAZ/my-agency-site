@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       type: "website",
       images: [
         {
-          url: "/og-image1.png",
+          url: "/og-image12.png",
           width: 1200,
           height: 630,
           alt: "CodeAura Web Solutions",
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image1.png"],
+      images: ["/og-image12.png"],
     },
   };
 }

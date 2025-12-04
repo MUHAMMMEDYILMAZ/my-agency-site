@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle, Zap, Search, Shield, Code2, Headphones } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function WhyChooseUs({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -14,37 +15,37 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
         features: [
           {
             title: "مواقع عالية الأداء",
-            desc: "نستخدم Next.js وتقنيات حديثة لضمان سرعة فائقة وتجربة مستخدم ممتازة.",
+            desc: "نستخدم Next.js لضمان سرعة فائقة وتجربة ممتازة.",
             icon: <Zap className="w-6 h-6 text-yellow-300" />,
             glow: "from-yellow-400/20",
           },
           {
             title: "تحسين متقدم لمحركات البحث",
-            desc: "موقعك مُهيّأ لتحسين الظهور في جوجل وزيادة سرعة الفهرسة وتعزيز الترافيك.",
+            desc: "تهيئة كاملة لرفع ترتيب موقعك في جوجل.",
             icon: <Search className="w-6 h-6 text-blue-300" />,
             glow: "from-blue-400/20",
           },
           {
-            title: "بُني باستخدام تقنيات قوية",
-            desc: "Next.js وNode.js وTailwindCSS وMongoDB — بنية مستقرة وقابلة للتطوير لسنوات.",
+            title: "تقنيات قوية",
+            desc: "Next.js و Node.js و Tailwind — أداء واستقرار لسنوات.",
             icon: <Code2 className="w-6 h-6 text-purple-300" />,
             glow: "from-purple-400/20",
           },
           {
-            title: "أمان واستقرار",
-            desc: "نطبق أفضل ممارسات الأمان ونبني البنية الخلفية بأعلى درجات الاستقرار.",
+            title: "أمان عالي",
+            desc: "نطبق أمانًا قويًا وضوابط حماية احترافية.",
             icon: <Shield className="w-6 h-6 text-red-300" />,
             glow: "from-red-400/20",
           },
           {
-            title: "دعم بعد التسليم",
-            desc: "نقدّم تحديثات وإصلاحات وتحسينات حتى بعد إطلاق المشروع.",
+            title: "دعم مستمر",
+            desc: "تحسينات وصيانة ما بعد التسليم.",
             icon: <Headphones className="w-6 h-6 text-green-300" />,
             glow: "from-green-400/20",
           },
           {
             title: "حلول مخصصة",
-            desc: "كل موقع نبنيه مصمم خصيصًا لنجاح عملك—not مجرد قوالب جاهزة.",
+            desc: "نصمم حلولًا كاملة تناسب عملك تمامًا.",
             icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
             glow: "from-pink-400/20",
           },
@@ -54,46 +55,58 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
         badge: "• Why Choose Us •",
         title: "Why Clients Trust Our Web Development",
         subtitle:
-          "We focus on performance, design quality, SEO strength, and long-term support — ensuring your website grows with your business.",
+          "We focus on performance, design quality, SEO strength, and long-term support.",
         features: [
           {
             title: "High Performance Websites",
-            desc: "We build ultra-fast websites using Next.js and modern rendering techniques to achieve top speed scores.",
+            desc: "Next.js for maximum speed and user experience.",
             icon: <Zap className="w-6 h-6 text-yellow-300" />,
             glow: "from-yellow-400/20",
           },
           {
             title: "Advanced SEO Optimization",
-            desc: "Your website is optimized for Google ranking, index speed, and Core Web Vitals to maximize traffic.",
+            desc: "Optimized to rank higher on Google.",
             icon: <Search className="w-6 h-6 text-blue-300" />,
             glow: "from-blue-400/20",
           },
           {
-            title: "Built With Strong Technologies",
-            desc: "Next.js, Node.js, TailwindCSS, MongoDB — powerful, stable, and scalable technologies for long-term success.",
+            title: "Strong Technologies",
+            desc: "Next.js, Node.js, Tailwind — scalable and secure.",
             icon: <Code2 className="w-6 h-6 text-purple-300" />,
             glow: "from-purple-400/20",
           },
           {
             title: "Security & Stability",
-            desc: "We follow modern security practices and structure your backend to ensure maximum stability.",
+            desc: "Modern security practices for safe websites.",
             icon: <Shield className="w-6 h-6 text-red-300" />,
             glow: "from-red-400/20",
           },
           {
             title: "Post-Launch Support",
-            desc: "We provide updates, fixes, improvements, and support even after delivering your project.",
+            desc: "We stay with you even after delivery.",
             icon: <Headphones className="w-6 h-6 text-green-300" />,
             glow: "from-green-400/20",
           },
           {
-            title: "Custom-Tailored Solutions",
-            desc: "Every website is custom designed and built specifically for your business goals — not generic templates.",
+            title: "Custom Solutions",
+            desc: "Fully tailored systems for your business.",
             icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
             glow: "from-pink-400/20",
           },
         ],
       };
+
+  // ⭐ Animation for cards (simple, fast, no TypeScript errors)
+  const cardAnimation = {
+    hidden: { opacity: 0, x: -80 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.25,
+      },
+    },
+  };
 
   return (
     <section
@@ -114,14 +127,15 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
       </div>
 
       {/* FEATURES GRID */}
-      <div
-        className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6 ${
-          isArabic ? "rtl" : ""
-        }`}
-      >
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
         {t.features.map((item, i) => (
-          <div
+          <motion.div
             key={i}
+            variants={cardAnimation}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 ,
+            }}
             className="
               relative group p-6 rounded-2xl
               bg-white/5 backdrop-blur-xl
@@ -132,7 +146,7 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
               hover:border-purple-400/30
             "
           >
-            {/* Neon Glow */}
+            {/* Glow */}
             <div
               className={`
                 absolute -inset-0.5 rounded-2xl opacity-0 
@@ -150,7 +164,7 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
               <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
               <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

@@ -11,31 +11,31 @@ export default function Services({ locale }: { locale: string }) {
         badge: "• خدماتنا •",
         title: "حلول ويب احترافية",
         subtitle:
-          "مواقع حديثة، آمنة، وسريعة الأداء مصممة خصيصًا لنجاح أعمالك.",
+          "نطوّر مواقع حديثة، آمنة، وسريعة الأداء باستخدام أحدث التقنيات لضمان نجاح أعمالك.",
         list: [
           {
             title: "تطوير صفحات الهبوط",
-            desc: "صفحات هبوط عالية الأداء باستخدام Next.js و Tailwind مع تصميمات تفاعلية سلسة.",
+            desc: "صفحات سريعة وعالية التحويل ببنية محسّنة وتجربة مستخدم سلسة.",
           },
           {
             title: "مواقع أعمال متعددة الصفحات",
-            desc: "مواقع احترافية متجاوبة ومحسّنة لمحركات البحث مع واجهة مستخدم مميزة.",
+            desc: "مواقع احترافية متجاوبة ومحسّنة للسيو لتقوية حضور علامتك.",
           },
           {
             title: "متجر إلكتروني (Next.js + MongoDB)",
-            desc: "متاجر كاملة مع السلة والدفع ولوحة التحكم وقاعدة بيانات آمنة.",
+            desc: "متاجر كاملة مع السلة والدفع ولوحة التحكم وتكاملات مرنة.",
           },
           {
             title: "لوحات تحكم مخصصة",
-            desc: "لوحات إدارة متقدمة مع تحليلات ورسوم بيانية وصلاحيات مستخدمين.",
+            desc: "لوحات إدارة مصممة خصيصًا مع صلاحيات وتحليلات وواجهة احترافية.",
           },
           {
-            title: "API و Backend (Node.js)",
-            desc: "خدمات خلفية قوية وآمنة باستخدام Node.js وExpress وMongoDB.",
+            title: "API و Backend",
+            desc: "بُنى خلفية قوية باستخدام Node.js مع أعلى مستويات الأمان.",
           },
           {
-            title: "حلول مخصصة",
-            desc: "أنظمة كاملة مبنية خصيصًا لتلبية احتياجات عملك.",
+            title: "حلول برمجية مخصصة",
+            desc: "أنظمة كاملة مصممة خصيصًا لتلبية احتياجات عملك بدقة.",
           },
         ],
       }
@@ -43,36 +43,36 @@ export default function Services({ locale }: { locale: string }) {
         badge: "• Services •",
         title: "Professional Web Solutions",
         subtitle:
-          "Modern, secure, high-performing websites tailored for your business success.",
+          "We build modern, secure, high-performance web applications tailored for your business success.",
         list: [
           {
             title: "Landing Page Development",
-            desc: "High-performance landing pages built using Next.js, Tailwind CSS, and smooth UI animations.",
+            desc: "High-conversion landing pages built with fast, modern technologies.",
           },
           {
             title: "Multi-Page Business Websites",
-            desc: "Fully responsive and SEO-optimized business websites with premium UI.",
+            desc: "Responsive, SEO-optimized websites with premium UI and UX.",
           },
           {
             title: "E-Commerce Store (Next.js + MongoDB)",
-            desc: "Full online stores with cart, checkout, dashboard, and secure MongoDB database.",
+            desc: "Full online stores with checkout, dashboard, and secure database.",
           },
           {
             title: "Custom Dashboards",
-            desc: "Admin dashboards with charts, analytics, authentication, and user roles.",
+            desc: "Beautiful dashboards with charts, analytics, and user permissions.",
           },
           {
-            title: "API & Backend (Node.js)",
-            desc: "Powerful backend services using Node.js, Express, and MongoDB — secure and scalable.",
+            title: "API & Backend Development",
+            desc: "Scalable and secure backend systems built with Node.js.",
           },
           {
-            title: "Custom Solutions",
-            desc: "Systems fully designed and developed to match your business needs.",
+            title: "Custom Software Solutions",
+            desc: "Complete systems designed and developed specifically for your needs.",
           },
         ],
       };
 
-  // دمج الترجمة مع الصور & الألوان
+  // دمج الترجمة مع الصور و الـ glow
   const services = t.list.map((item, index) => ({
     ...item,
     img: [
@@ -84,34 +84,26 @@ export default function Services({ locale }: { locale: string }) {
       "/services/Custom-Solutions.jpg",
     ][index],
     glow: [
-      "from-purple-500/20 to-transparent",
-      "from-blue-500/20 to-transparent",
-      "from-pink-500/20 to-transparent",
-      "from-green-500/20 to-transparent",
-      "from-yellow-500/20 to-transparent",
-      "from-purple-400/20 to-transparent",
+      "from-purple-500/20",
+      "from-blue-500/20",
+      "from-pink-500/20",
+      "from-green-500/20",
+      "from-yellow-500/20",
+      "from-purple-400/20",
     ][index],
   }));
 
-  // ⚡ حركة Swirl Animation
- const cardVariants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.4,
-    rotate: -25,
-    y: 40,
-  },
+ const slideIn = {
+  hidden: { opacity: 0, x: 120 },
   visible: {
     opacity: 1,
-    scale: 1,
-    rotate: 0,
-    y: 0,
+    x: 0,
     transition: {
-      duration: 0.55,
-      ease: [0.16, 1, 0.3, 1], // EaseOutExpo – متوافق 100%
+      duration: 0.22,
     },
   },
-} as const;
+};
+
 
 
   return (
@@ -144,62 +136,36 @@ export default function Services({ locale }: { locale: string }) {
 
       {/* Cards Grid */}
       <motion.div
-        className="relative z-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6"
-        initial="hidden"
-whileInView="visible"
-viewport={{ once: true, amount: 0.5 }}
-transition={{ staggerChildren: 0.12 }}
-
-
+        className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6"
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.15 }}
       >
         {services.map((service, i) => (
           <motion.div
             key={i}
-            variants={cardVariants}
+            variants={slideIn}
             className="
               relative group p-6 rounded-3xl
               bg-[#0c0c17]/60 backdrop-blur-xl
-
               border border-white/10
               shadow-[0_0_30px_rgba(0,0,0,0.35)]
-
               transition-all duration-300
               hover:scale-[1.02]
               hover:border-purple-400/20
             "
           >
-            {/* INNER BORDER */}
-            <div
-              className="
-                absolute inset-1 rounded-2xl
-                border border-blue-300/10
-                transition-all duration-300
-                pointer-events-none
-                group-hover:border-blue-500/40
-              "
-            />
-
-            {/* INNER SHADOW */}
-            <div
-              className="
-                absolute inset-1 rounded-2xl
-                shadow-[0_0_25px_rgba(60,120,255,0.08)]
-                group-hover:shadow-[0_0_35px_rgba(60,120,255,0.2)]
-                transition-all duration-300
-              "
-            />
-
-            {/* NEON OUTER GLOW */}
+            {/* Glow */}
             <div
               className={`
                 absolute -inset-0.5 rounded-3xl opacity-0 
-                bg-gradient-to-br ${service.glow}
+                bg-gradient-to-br ${service.glow} to-transparent
                 blur-xl transition duration-500 
                 group-hover:opacity-40
               `}
             />
 
-            {/* CONTENT */}
+            {/* Content */}
             <div className="relative z-10 flex flex-col items-center text-center">
               <div className="w-full flex justify-center mb-6">
                 <div className="w-[78%]">
