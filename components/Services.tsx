@@ -109,15 +109,16 @@ export default function Services({ locale }: { locale: string }) {
   return (
     <section
       className="
-        relative py-24 text-white
-        bg-[#050816]
-        bg-[url('/services/stars.png')]
-        bg-cover bg-center bg-no-repeat
-        before:content-['']
-        before:absolute before:inset-0
-        before:bg-[#050816cc]
-        before:backdrop-blur-[1px]
-        before:z-0
+       relative py-24 text-white
+    bg-[#050816]
+    overflow-x-hidden
+    bg-[url('/services/stars.png')]
+    bg-cover bg-center bg-no-repeat
+    before:content-['']
+    before:absolute before:inset-0
+    before:bg-[#050816cc]
+    before:backdrop-blur-[1px]
+    before:z-0
       "
       dir={isArabic ? "rtl" : "ltr"}
     >
