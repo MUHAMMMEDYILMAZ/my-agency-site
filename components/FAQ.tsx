@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function FAQ({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -47,23 +48,23 @@ export default function FAQ({ locale }: { locale: string }) {
           },
           {
             q: "How can a website increase sales?",
-            a: "With optimized pages, persuasive content, and excellent UX, conversion rates and sales significantly improve.",
+            a: "With optimized pages and great UX, conversions and sales increase significantly.",
           },
           {
-            q: "What technologies are used for development?",
-            a: "We use Next.js, React, TailwindCSS, Node.js, and MongoDB for speed, security, and long-term reliability.",
+            q: "What technologies are used?",
+            a: "We use Next.js, React, TailwindCSS, Node.js and MongoDB for speed and security.",
           },
           {
             q: "Can I edit the website later?",
-            a: "Yes, you get a simple dashboard to modify text, images, and content anytime.",
+            a: "Yes! You get a dashboard to update text, images, and content anytime.",
           },
           {
             q: "Is there support after delivery?",
-            a: "Yes, depending on your plan, you get free support from 1 to 6 months.",
+            a: "Yes, depending on your package, you get support from 1 to 6 months.",
           },
           {
             q: "Is the website SEO-ready?",
-            a: "Every website is built with core SEO structure to help ranking and performance.",
+            a: "All websites are built with core SEO structure to help ranking.",
           },
         ],
       };
@@ -90,19 +91,22 @@ export default function FAQ({ locale }: { locale: string }) {
           return (
             <div
               key={i}
+              onClick={() => setOpenIndex(isOpen ? null : i)}
               className={`
                 rounded-3xl p-6 cursor-pointer transition-all duration-300
                 bg-[#0b0b16]/70 border border-white/10 
                 hover:border-purple-400/20
                 ${isOpen ? "shadow-[0_0_30px_rgba(120,75,255,0.25)]" : ""}
               `}
-              onClick={() => setOpenIndex(isOpen ? null : i)}
             >
               {/* Question Row */}
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium">{item.q}</h3>
 
-                <div
+                {/* Icon Flip Animation */}
+                <motion.div
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.25 }}
                   className={`
                     w-8 h-8 rounded-full flex items-center justify-center
                     transition-all duration-300
@@ -114,13 +118,23 @@ export default function FAQ({ locale }: { locale: string }) {
                   ) : (
                     <Plus className="w-4 h-4 text-white" />
                   )}
-                </div>
+                </motion.div>
               </div>
 
-              {/* Answer */}
-              {isOpen && (
-                <p className="mt-4 text-white/70 leading-relaxed">{item.a}</p>
-              )}
+              {/* Answer Slide + Fade */}
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.p
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.25 }}
+                    className="mt-4 text-white/70 leading-relaxed"
+                  >
+                    {item.a}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}

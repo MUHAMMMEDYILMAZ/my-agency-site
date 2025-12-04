@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Pricing({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -48,7 +49,7 @@ export default function Pricing({ locale }: { locale: string }) {
             buttonColor: "from-blue-500 to-purple-600",
             features: [
               "متجر إلكتروني كامل (Next.js + DB)",
-              "سلة تسوق + تسجيل دخول العملاء",
+              "سلة + تسجيل دخول العملاء",
               "ربط بوابات الدفع",
               "لوحة تحكم كاملة",
               "سيو متقدم + أمان عالي",
@@ -111,6 +112,18 @@ export default function Pricing({ locale }: { locale: string }) {
         ],
       };
 
+  // ⭐ Fade + Scale Pop Animation
+  const cardAnimation = {
+    hidden: { opacity: 0, scale: 0.85 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.28,
+      },
+    },
+  };
+
   return (
     <section
       className="relative py-24 text-white colorp"
@@ -126,8 +139,12 @@ export default function Pricing({ locale }: { locale: string }) {
 
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-3 px-6">
         {t.plans.map((plan, i) => (
-          <div
+          <motion.div
             key={i}
+            variants={cardAnimation}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
             className="
               relative group p-8 rounded-3xl
               bg-[#0b0b16]/70 backdrop-blur-xl
@@ -177,7 +194,7 @@ export default function Pricing({ locale }: { locale: string }) {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

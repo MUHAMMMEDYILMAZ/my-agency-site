@@ -96,21 +96,19 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
         ],
       };
 
-  // ⭐ Animation for cards (simple, fast, no TypeScript errors)
+  // ⭐ Animation fixed (NO overflow / NO white space)
   const cardAnimation = {
-    hidden: { opacity: 0, x: -80 },
+    hidden: { opacity: 0, x: -40 },
     visible: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 0.25,
-      },
+      transition: { duration: 0.25 },
     },
   };
 
   return (
     <section
-      className="why-bg relative py-24 text-white bg-[#050816]"
+      className="why-bg relative py-24 text-white bg-[#050816] overflow-x-hidden"
       dir={isArabic ? "rtl" : "ltr"}
     >
       {/* TITLE */}
@@ -134,8 +132,7 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
             variants={cardAnimation}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 ,
-            }}
+            viewport={{ once: true, amount: 0.2 }}
             className="
               relative group p-6 rounded-2xl
               bg-white/5 backdrop-blur-xl
