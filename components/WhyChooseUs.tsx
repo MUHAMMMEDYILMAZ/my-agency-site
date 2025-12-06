@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle, Zap, Search, Shield, Code2, Headphones } from "lucide-react";
-import { motion } from "framer-motion";
+import useReveal from "@/hooks/useReveal";
 
 export default function WhyChooseUs({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -13,42 +13,12 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
         subtitle:
           "نركز على الأداء، جودة التصميم، قوة السيو، والدعم المستمر لضمان نمو موقعك مع عملك.",
         features: [
-          {
-            title: "مواقع عالية الأداء",
-            desc: "نستخدم Next.js لضمان سرعة فائقة وتجربة ممتازة.",
-            icon: <Zap className="w-6 h-6 text-yellow-300" />,
-            glow: "from-yellow-400/20",
-          },
-          {
-            title: "تحسين متقدم لمحركات البحث",
-            desc: "تهيئة كاملة لرفع ترتيب موقعك في جوجل.",
-            icon: <Search className="w-6 h-6 text-blue-300" />,
-            glow: "from-blue-400/20",
-          },
-          {
-            title: "تقنيات قوية",
-            desc: "Next.js و Node.js و Tailwind — أداء واستقرار لسنوات.",
-            icon: <Code2 className="w-6 h-6 text-purple-300" />,
-            glow: "from-purple-400/20",
-          },
-          {
-            title: "أمان عالي",
-            desc: "نطبق أمانًا قويًا وضوابط حماية احترافية.",
-            icon: <Shield className="w-6 h-6 text-red-300" />,
-            glow: "from-red-400/20",
-          },
-          {
-            title: "دعم مستمر",
-            desc: "تحسينات وصيانة ما بعد التسليم.",
-            icon: <Headphones className="w-6 h-6 text-green-300" />,
-            glow: "from-green-400/20",
-          },
-          {
-            title: "حلول مخصصة",
-            desc: "نصمم حلولًا كاملة تناسب عملك تمامًا.",
-            icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
-            glow: "from-pink-400/20",
-          },
+          { title: "مواقع عالية الأداء", desc: "نستخدم Next.js لضمان سرعة فائقة وتجربة ممتازة.", icon: <Zap className="w-6 h-6 text-yellow-300" />, glow: "from-yellow-400/20" },
+          { title: "تحسين متقدم لمحركات البحث", desc: "تهيئة كاملة لرفع ترتيب موقعك في جوجل.", icon: <Search className="w-6 h-6 text-blue-300" />, glow: "from-blue-400/20" },
+          { title: "تقنيات قوية", desc: "Next.js و Node.js و Tailwind — أداء واستقرار لسنوات.", icon: <Code2 className="w-6 h-6 text-purple-300" />, glow: "from-purple-400/20" },
+          { title: "أمان عالي", desc: "نطبق أمانًا قويًا وضوابط حماية احترافية.", icon: <Shield className="w-6 h-6 text-red-300" />, glow: "from-red-400/20" },
+          { title: "دعم مستمر", desc: "تحسينات وصيانة ما بعد التسليم.", icon: <Headphones className="w-6 h-6 text-green-300" />, glow: "from-green-400/20" },
+          { title: "حلول مخصصة", desc: "نصمم حلولًا كاملة تناسب عملك تمامًا.", icon: <CheckCircle className="w-6 h-6 text-pink-300" />, glow: "from-pink-400/20" },
         ],
       }
     : {
@@ -57,54 +27,14 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
         subtitle:
           "We focus on performance, design quality, SEO strength, and long-term support.",
         features: [
-          {
-            title: "High Performance Websites",
-            desc: "Next.js for maximum speed and user experience.",
-            icon: <Zap className="w-6 h-6 text-yellow-300" />,
-            glow: "from-yellow-400/20",
-          },
-          {
-            title: "Advanced SEO Optimization",
-            desc: "Optimized to rank higher on Google.",
-            icon: <Search className="w-6 h-6 text-blue-300" />,
-            glow: "from-blue-400/20",
-          },
-          {
-            title: "Strong Technologies",
-            desc: "Next.js, Node.js, Tailwind — scalable and secure.",
-            icon: <Code2 className="w-6 h-6 text-purple-300" />,
-            glow: "from-purple-400/20",
-          },
-          {
-            title: "Security & Stability",
-            desc: "Modern security practices for safe websites.",
-            icon: <Shield className="w-6 h-6 text-red-300" />,
-            glow: "from-red-400/20",
-          },
-          {
-            title: "Post-Launch Support",
-            desc: "We stay with you even after delivery.",
-            icon: <Headphones className="w-6 h-6 text-green-300" />,
-            glow: "from-green-400/20",
-          },
-          {
-            title: "Custom Solutions",
-            desc: "Fully tailored systems for your business.",
-            icon: <CheckCircle className="w-6 h-6 text-pink-300" />,
-            glow: "from-pink-400/20",
-          },
+          { title: "High Performance Websites", desc: "Next.js for maximum speed and UX.", icon: <Zap className="w-6 h-6 text-yellow-300" />, glow: "from-yellow-400/20" },
+          { title: "Advanced SEO Optimization", desc: "Optimized to rank higher on Google.", icon: <Search className="w-6 h-6 text-blue-300" />, glow: "from-blue-400/20" },
+          { title: "Strong Technologies", desc: "Next.js, Node.js, Tailwind — scalable and secure.", icon: <Code2 className="w-6 h-6 text-purple-300" />, glow: "from-purple-400/20" },
+          { title: "Security & Stability", desc: "Modern security practices.", icon: <Shield className="w-6 h-6 text-red-300" />, glow: "from-red-400/20" },
+          { title: "Post-Launch Support", desc: "We stay with you after delivery.", icon: <Headphones className="w-6 h-6 text-green-300" />, glow: "from-green-400/20" },
+          { title: "Custom Solutions", desc: "Fully tailored systems for your business.", icon: <CheckCircle className="w-6 h-6 text-pink-300" />, glow: "from-pink-400/20" },
         ],
       };
-
-  // ⭐ Animation fixed (NO overflow / NO white space)
-  const cardAnimation = {
-    hidden: { opacity: 0, x: -40 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.25 },
-    },
-  };
 
   return (
     <section
@@ -126,43 +56,49 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
 
       {/* FEATURES GRID */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
-        {t.features.map((item, i) => (
-          <motion.div
-            key={i}
-            variants={cardAnimation}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="
-              relative group p-6 rounded-2xl
-              bg-white/5 backdrop-blur-xl
-              border border-white/10
-              shadow-[0_0_30px_rgba(0,0,0,0.4)]
-              transition-all duration-300
-              hover:scale-[1.03]
-              hover:border-purple-400/30
-            "
-          >
-            {/* Glow */}
+        {t.features.map((item, i) => {
+          const { ref, visible } = useReveal();
+
+          return (
             <div
+              key={i}
+              ref={ref}
               className={`
-                absolute -inset-0.5 rounded-2xl opacity-0 
-                bg-gradient-to-br ${item.glow} to-transparent
-                blur-xl transition duration-500 
-                group-hover:opacity-40
+                relative group p-6 rounded-2xl
+                bg-white/5 backdrop-blur-xl
+                border border-white/10
+                shadow-[0_0_30px_rgba(0,0,0,0.4)]
+                transition-all duration-300
+                hover:scale-[1.03]
+                hover:border-purple-400/30
+
+                ${visible ? "animate-why" : "opacity-0 translate-y-[30px]"}
               `}
-            />
+            >
+              {/* Glow */}
+              <div
+                className={`
+                  absolute -inset-0.5 rounded-2xl opacity-0 
+                  bg-gradient-to-br ${item.glow} to-transparent
+                  blur-xl transition duration-500 
+                  group-hover:opacity-40
+                `}
+              />
 
-            <div className="relative z-10">
-              <div className="mb-4 p-3 w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                {item.icon}
+              <div className="relative z-10">
+                <div className="mb-4 p-3 w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                  {item.icon}
+                </div>
+
+                <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+
+                <p className="text-sm text-white/60 leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
-
-              <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-              <p className="text-sm text-white/60 leading-relaxed">{item.desc}</p>
             </div>
-          </motion.div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

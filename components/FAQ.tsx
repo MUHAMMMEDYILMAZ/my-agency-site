@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Minus, Plus } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function FAQ({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -12,64 +11,43 @@ export default function FAQ({ locale }: { locale: string }) {
         badge: "• الأسئلة الشائعة •",
         title: "الأسئلة الأكثر تكراراً",
         faqs: [
-          {
-            q: "لماذا يجب أن يكون لعملك موقع إلكتروني؟",
-            a: "وجود موقع احترافي يعزز ثقة العملاء، يزيد قابلية الوصول لمنتجك 24/7، ويساعدك على جذب عملاء جدد باستمرار.",
-          },
-          {
-            q: "كيف يساعد الموقع في زيادة المبيعات؟",
-            a: "من خلال صفحات محسّنة وتجربة مستخدم ممتازة، يمكن رفع معدل التحويل بشكل كبير وزيادة المبيعات.",
-          },
-          {
-            q: "ما التقنيات المستخدمة لتطوير المواقع؟",
-            a: "نستخدم Next.js، React، TailwindCSS، Node.js و MongoDB لضمان الجودة والسرعة والأمان.",
-          },
-          {
-            q: "هل أستطيع تعديل الموقع لاحقاً؟",
-            a: "نعم، تحصل على لوحة تحكم تسهّل عليك تعديل المحتوى والصور والنصوص.",
-          },
-          {
-            q: "هل يوجد دعم بعد التسليم؟",
-            a: "نعم، حسب الباقة تحصل على دعم مجاني من 1 إلى 6 أشهر.",
-          },
-          {
-            q: "هل الموقع مجهّز للـ SEO؟",
-            a: "كل موقع يتم بناؤه وفق قواعد SEO أساسية لضمان ظهور أفضل في نتائج البحث.",
-          },
+          { q: "لماذا يجب أن يكون لعملك موقع إلكتروني؟", a: "وجود موقع احترافي يعزز ثقة العملاء، يزيد قابلية الوصول لمنتجك 24/7، ويساعدك على جذب عملاء جدد باستمرار." },
+          { q: "كيف يساعد الموقع في زيادة المبيعات؟", a: "من خلال صفحات محسّنة وتجربة مستخدم ممتازة، يمكن رفع معدل التحويل بشكل كبير وزيادة المبيعات." },
+          { q: "ما التقنيات المستخدمة لتطوير المواقع؟", a: "نستخدم Next.js، React، TailwindCSS، Node.js و MongoDB لضمان الجودة والسرعة والأمان." },
+          { q: "هل أستطيع تعديل الموقع لاحقاً؟", a: "نعم، تحصل على لوحة تحكم تسهّل عليك تعديل المحتوى والصور والنصوص." },
+          { q: "هل يوجد دعم بعد التسليم؟", a: "نعم، حسب الباقة تحصل على دعم مجاني من 1 إلى 6 أشهر." },
+          { q: "هل الموقع مجهّز للـ SEO؟", a: "كل موقع يتم بناؤه وفق قواعد SEO أساسية لضمان ظهور أفضل في نتائج البحث." },
         ],
       }
     : {
         badge: "• FAQ •",
         title: "Frequently Asked Questions",
         faqs: [
-          {
-            q: "Why does your business need a website?",
-            a: "A professional website builds trust, increases visibility 24/7, and helps attract new customers consistently.",
-          },
-          {
-            q: "How can a website increase sales?",
-            a: "With optimized pages and great UX, conversions and sales increase significantly.",
-          },
-          {
-            q: "What technologies are used?",
-            a: "We use Next.js, React, TailwindCSS, Node.js and MongoDB for speed and security.",
-          },
-          {
-            q: "Can I edit the website later?",
-            a: "Yes! You get a dashboard to update text, images, and content anytime.",
-          },
-          {
-            q: "Is there support after delivery?",
-            a: "Yes, depending on your package, you get support from 1 to 6 months.",
-          },
-          {
-            q: "Is the website SEO-ready?",
-            a: "All websites are built with core SEO structure to help ranking.",
-          },
+          { q: "Why does your business need a website?", a: "A professional website builds trust, increases visibility 24/7, and helps attract new customers consistently." },
+          { q: "How can a website increase sales?", a: "With optimized pages and great UX, conversions and sales increase significantly." },
+          { q: "What technologies are used?", a: "We use Next.js, React, TailwindCSS, Node.js and MongoDB for speed and security." },
+          { q: "Can I edit the website later?", a: "Yes! You get a dashboard to update text, images, and content anytime." },
+          { q: "Is there support after delivery?", a: "Yes, depending on your package, you get support from 1 to 6 months." },
+          { q: "Is the website SEO-ready?", a: "All websites are built with core SEO structure to help ranking." },
         ],
       };
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [closingIndex, setClosingIndex] = useState<number | null>(null);
+
+  const toggleFAQ = (i: number) => {
+    if (openIndex === i) {
+      // closing
+      setClosingIndex(i);
+      setOpenIndex(null);
+
+      setTimeout(() => setClosingIndex(null), 250);
+    } else {
+      // open new FAQ
+      setClosingIndex(null);
+      setOpenIndex(i);
+    }
+  };
 
   return (
     <section
@@ -87,11 +65,12 @@ export default function FAQ({ locale }: { locale: string }) {
       <div className="max-w-4xl mx-auto px-6 space-y-6">
         {t.faqs.map((item, i) => {
           const isOpen = openIndex === i;
+          const isClosing = closingIndex === i;
 
           return (
             <div
               key={i}
-              onClick={() => setOpenIndex(isOpen ? null : i)}
+              onClick={() => toggleFAQ(i)}
               className={`
                 rounded-3xl p-6 cursor-pointer transition-all duration-300
                 bg-[#0b0b16]/70 border border-white/10 
@@ -99,18 +78,16 @@ export default function FAQ({ locale }: { locale: string }) {
                 ${isOpen ? "shadow-[0_0_30px_rgba(120,75,255,0.25)]" : ""}
               `}
             >
-              {/* Question Row */}
+              {/* Question */}
               <div className="flex justify-between items-center">
                 <h3 className="text-lg font-medium">{item.q}</h3>
 
-                {/* Icon Flip Animation */}
-                <motion.div
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.25 }}
+                <div
                   className={`
-                    w-8 h-8 rounded-full flex items-center justify-center
+                    rotate-icon w-8 h-8 rounded-full flex items-center justify-center
                     transition-all duration-300
                     ${isOpen ? "bg-purple-600" : "bg-white/10"}
+                    ${isOpen ? "rotate-180" : ""}
                   `}
                 >
                   {isOpen ? (
@@ -118,23 +95,21 @@ export default function FAQ({ locale }: { locale: string }) {
                   ) : (
                     <Plus className="w-4 h-4 text-white" />
                   )}
-                </motion.div>
+                </div>
               </div>
 
-              {/* Answer Slide + Fade */}
-              <AnimatePresence>
-                {isOpen && (
-                  <motion.p
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.25 }}
-                    className="mt-4 text-white/70 leading-relaxed"
-                  >
-                    {item.a}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {/* Answer Animation */}
+              {(isOpen || isClosing) && (
+                <p
+                  className={`
+                    mt-4 text-white/70 leading-relaxed 
+                    ${isOpen ? "faq-animate-in" : ""}
+                    ${isClosing ? "faq-animate-out" : ""}
+                  `}
+                >
+                  {item.a}
+                </p>
+              )}
             </div>
           );
         })}

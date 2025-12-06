@@ -1,7 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { motion } from "framer-motion";
+import useReveal from "@/hooks/useReveal";
 
 export default function Pricing({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -112,18 +112,6 @@ export default function Pricing({ locale }: { locale: string }) {
         ],
       };
 
-  // ⭐ Fade + Scale Pop Animation
-  const cardAnimation = {
-    hidden: { opacity: 0, scale: 0.85 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.28,
-      },
-    },
-  };
-
   return (
     <section
       className="relative py-24 text-white colorp"
@@ -138,64 +126,67 @@ export default function Pricing({ locale }: { locale: string }) {
       </div>
 
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-3 px-6">
-        {t.plans.map((plan, i) => (
-          <motion.div
-            key={i}
-            variants={cardAnimation}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="
-              relative group p-8 rounded-3xl
-              bg-[#0b0b16]/70 backdrop-blur-xl
-              border border-white/10
-              shadow-[0_0_40px_rgba(0,0,0,0.35)]
-              transition-all duration-300
-              hover:scale-[1.03]
-              hover:border-purple-400/20
-            "
-          >
-            {/* Glow */}
+        {t.plans.map((plan, i) => {
+          const { ref, visible } = useReveal();
+
+          return (
             <div
-              className="
-                absolute -inset-1 rounded-3xl opacity-0 
-                bg-gradient-to-r from-purple-500/20 to-blue-500/20
-                blur-xl transition duration-500 
-                group-hover:opacity-40
-              "
-            />
+              key={i}
+              ref={ref}
+              className={`
+                relative group p-8 rounded-3xl
+                bg-[#0b0b16]/70 backdrop-blur-xl
+                border border-white/10
+                shadow-[0_0_40px_rgba(0,0,0,0.35)]
+                transition-all duration-300
+                hover:scale-[1.03]
+                hover:border-purple-400/20
 
-            <div className="relative z-10">
-              <h3 className="text-lg font-semibold mb-2">{plan.title}</h3>
+                ${visible ? "animate-pricing" : "opacity-0 scale-[0.85]"}
+              `}
+            >
+              {/* Glow */}
+              <div
+                className="
+                  absolute -inset-1 rounded-3xl opacity-0 
+                  bg-gradient-to-r from-purple-500/20 to-blue-500/20
+                  blur-xl transition duration-500 
+                  group-hover:opacity-40
+                "
+              />
 
-              <div className="text-4xl font-bold">
-                {plan.price}
-                <span className="text-sm text-white/40 ml-1">/{plan.tag}</span>
-              </div>
+              <div className="relative z-10">
+                <h3 className="text-lg font-semibold mb-2">{plan.title}</h3>
 
-              <button
-                className={`
-                  w-full py-2 mt-6 rounded-full font-medium text-sm
-                  bg-gradient-to-r ${plan.buttonColor}
-                  shadow-[0_15px_40px_rgba(118,75,255,0.35)]
-                `}
-              >
-                {t.demo}
-              </button>
+                <div className="text-4xl font-bold">
+                  {plan.price}
+                  <span className="text-sm text-white/40 ml-1">/{plan.tag}</span>
+                </div>
 
-              <p className="text-xs text-white/50 mt-6 mb-3">{t.whatYouGet}</p>
+                <button
+                  className={`
+                    w-full py-2 mt-6 rounded-full font-medium text-sm
+                    bg-gradient-to-r ${plan.buttonColor}
+                    shadow-[0_15px_40px_rgba(118,75,255,0.35)]
+                  `}
+                >
+                  {t.demo}
+                </button>
 
-              <div className="space-y-3">
-                {plan.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-purple-300 mt-1" />
-                    <span className="text-sm text-white/70">{feature}</span>
-                  </div>
-                ))}
+                <p className="text-xs text-white/50 mt-6 mb-3">{t.whatYouGet}</p>
+
+                <div className="space-y-3">
+                  {plan.features.map((feature, index) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-purple-300 mt-1" />
+                      <span className="text-sm text-white/70">{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </motion.div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

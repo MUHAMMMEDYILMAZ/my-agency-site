@@ -4,11 +4,14 @@ import Link from "next/link";
 import { Phone, Menu, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function Header({ locale }: { locale: string }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+
+  const pathname = usePathname(); // ⭐ نجيب المسار الحالي
 
   const isArabic = locale === "ar";
 
@@ -16,6 +19,13 @@ export default function Header({ locale }: { locale: string }) {
     { code: "en", label: "EN" },
     { code: "ar", label: "AR" },
   ];
+
+  // ⭐ دالة تبديل اللغة مع المحافظة على نفس الصفحة
+  const switchLang = (newLang: string) => {
+    const parts = pathname.split("/");
+    parts[1] = newLang; // استبدال اللغة
+    return parts.join("/");
+  };
 
   const t = isArabic
     ? {
@@ -53,8 +63,8 @@ export default function Header({ locale }: { locale: string }) {
   return (
     <motion.header
       initial={{ opacity: 0, y: -15 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.45, ease: "easeOut" }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
       className="
         fixed top-0 left-0 w-full z-50
         px-4 pt-4 
@@ -87,24 +97,26 @@ export default function Header({ locale }: { locale: string }) {
 
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-white/85">
-          <Link href="#" className="hover:text-white relative">
+          <Link href={`/${locale}`} className="hover:text-white relative">
             {t.home}
             <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-white rounded-full" />
           </Link>
+
           <Link href="#">{t.services}</Link>
           <Link href="#">{t.work}</Link>
           <Link href="#">{t.reviews}</Link>
-          <Link href="#">{t.contact}</Link>
+          <Link href={`/${locale}/contact`}>{t.contact}</Link>
         </nav>
 
         {/* RIGHT SIDE (DESKTOP) */}
         <div className="hidden md:flex items-center gap-4">
+
           {/* LANGUAGES */}
           <div className="flex items-center gap-2">
             {languages.map((lang) => (
               <Link
                 key={lang.code}
-                href={`/${lang.code}`}
+                href={switchLang(lang.code)} // ⭐ بدل {`/${lang.code}`}
                 className={`
                   px-3 py-1 rounded-full text-xs font-semibold
                   border transition-all duration-200
@@ -148,7 +160,7 @@ export default function Header({ locale }: { locale: string }) {
           {languages.map((lang) => (
             <Link
               key={lang.code}
-              href={`/${lang.code}`}
+              href={switchLang(lang.code)} // ⭐ هنا أيضاً
               className={`
                 px-2 py-1 rounded-full text-xs font-semibold
                 border transition-all duration-200
@@ -189,11 +201,15 @@ export default function Header({ locale }: { locale: string }) {
             flex flex-col gap-4 text-white text-sm md:hidden
           "
         >
-          <Link href="#" onClick={() => setOpen(false)}>{t.home}</Link>
+          <Link href={`/${locale}`} onClick={() => setOpen(false)}>
+            {t.home}
+          </Link>
           <Link href="#" onClick={() => setOpen(false)}>{t.services}</Link>
           <Link href="#" onClick={() => setOpen(false)}>{t.work}</Link>
           <Link href="#" onClick={() => setOpen(false)}>{t.reviews}</Link>
-          <Link href="#" onClick={() => setOpen(false)}>{t.contact}</Link>
+          <Link href={`/${locale}/contact`} onClick={() => setOpen(false)}>
+            {t.contact}
+          </Link>
 
           <hr className="border-white/10" />
 

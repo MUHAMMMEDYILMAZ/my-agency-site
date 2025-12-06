@@ -2,7 +2,7 @@
 
 import { ArrowRight, MessageCircle } from "lucide-react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import useReveal from "@/hooks/useReveal";
 
 export default function Hero({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -29,14 +29,13 @@ export default function Hero({ locale }: { locale: string }) {
         tools: "Revolutionizing Client Solutions with the Best Tools",
       };
 
-  return (
-    <motion.section
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.55, ease: "easeOut" }}
+  // hero animation using reveal hook
+  const { ref, visible } = useReveal();
 
-      className="
-        fade-up
+  return (
+    <section
+      ref={ref}
+      className={`
         bg-[#050816]
         relative text-white 
         pt-32 sm:pt-28 md:pt-32 
@@ -44,10 +43,11 @@ export default function Hero({ locale }: { locale: string }) {
         text-center
         bg-gradient-to-br from-[#0a0724] via-[#120a3a] to-[#050816]
         overflow-hidden
-
         bg-[url('data:image/svg+xml,%3Csvg%20width%3D%221120%22%20height%3D%221120%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M50%200%20L100%2050%20L50%20100%20L0%2050%20Z%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff10%22%20stroke-width%3D%221%22/%3E%3C/svg%3E')]
         bg-[length:180px]
-      "
+
+        ${visible ? "animate-hero" : "opacity-0 translate-y-[20px]"}
+      `}
       dir={isArabic ? "rtl" : "ltr"}
     >
       {/* LEFT PURPLE GLOW */}
@@ -113,7 +113,7 @@ export default function Hero({ locale }: { locale: string }) {
         <p className="text-white/70 text-sm mb-6">{t.tools}</p>
 
         <div className="flex justify-center flex-wrap gap-6 sm:gap-8 px-4">
-          {[ 
+          {[
             "/html-5-icon.svg",
             "/javascript-logo.svg",
             "/nextjs-icon.png",
@@ -141,6 +141,6 @@ export default function Hero({ locale }: { locale: string }) {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

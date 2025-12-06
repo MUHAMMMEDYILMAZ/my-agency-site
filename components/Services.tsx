@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import useReveal from "@/hooks/useReveal";
 
 export default function Services({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
@@ -13,30 +13,12 @@ export default function Services({ locale }: { locale: string }) {
         subtitle:
           "نطوّر مواقع حديثة، آمنة، وسريعة الأداء باستخدام أحدث التقنيات لضمان نجاح أعمالك.",
         list: [
-          {
-            title: "تطوير صفحات الهبوط",
-            desc: "صفحات سريعة وعالية التحويل ببنية محسّنة وتجربة مستخدم سلسة.",
-          },
-          {
-            title: "مواقع أعمال متعددة الصفحات",
-            desc: "مواقع احترافية متجاوبة ومحسّنة للسيو لتقوية حضور علامتك.",
-          },
-          {
-            title: "متجر إلكتروني (Next.js + MongoDB)",
-            desc: "متاجر كاملة مع السلة والدفع ولوحة التحكم وتكاملات مرنة.",
-          },
-          {
-            title: "لوحات تحكم مخصصة",
-            desc: "لوحات إدارة مصممة خصيصًا مع صلاحيات وتحليلات وواجهة احترافية.",
-          },
-          {
-            title: "API و Backend",
-            desc: "بُنى خلفية قوية باستخدام Node.js مع أعلى مستويات الأمان.",
-          },
-          {
-            title: "حلول برمجية مخصصة",
-            desc: "أنظمة كاملة مصممة خصيصًا لتلبية احتياجات عملك بدقة.",
-          },
+          { title: "تطوير صفحات الهبوط", desc: "صفحات سريعة وعالية التحويل ببنية محسّنة وتجربة مستخدم سلسة." },
+          { title: "مواقع أعمال متعددة الصفحات", desc: "مواقع احترافية متجاوبة ومحسّنة للسيو لتقوية حضور علامتك." },
+          { title: "متجر إلكتروني (Next.js + MongoDB)", desc: "متاجر كاملة مع السلة والدفع ولوحة التحكم وتكاملات مرنة." },
+          { title: "لوحات تحكم مخصصة", desc: "لوحات إدارة مصممة خصيصًا مع صلاحيات وتحليلات وواجهة احترافية." },
+          { title: "API و Backend", desc: "بُنى خلفية قوية باستخدام Node.js مع أعلى مستويات الأمان." },
+          { title: "حلول برمجية مخصصة", desc: "أنظمة كاملة مصممة خصيصًا لتلبية احتياجات عملك بدقة." },
         ],
       }
     : {
@@ -45,34 +27,15 @@ export default function Services({ locale }: { locale: string }) {
         subtitle:
           "We build modern, secure, high-performance web applications tailored for your business success.",
         list: [
-          {
-            title: "Landing Page Development",
-            desc: "High-conversion landing pages built with fast, modern technologies.",
-          },
-          {
-            title: "Multi-Page Business Websites",
-            desc: "Responsive, SEO-optimized websites with premium UI and UX.",
-          },
-          {
-            title: "E-Commerce Store (Next.js + MongoDB)",
-            desc: "Full online stores with checkout, dashboard, and secure database.",
-          },
-          {
-            title: "Custom Dashboards",
-            desc: "Beautiful dashboards with charts, analytics, and user permissions.",
-          },
-          {
-            title: "API & Backend Development",
-            desc: "Scalable and secure backend systems built with Node.js.",
-          },
-          {
-            title: "Custom Software Solutions",
-            desc: "Complete systems designed and developed specifically for your needs.",
-          },
+          { title: "Landing Page Development", desc: "High-conversion landing pages built with fast modern technologies." },
+          { title: "Multi-Page Business Websites", desc: "Responsive, SEO-optimized websites with premium UI/UX." },
+          { title: "E-Commerce Store (Next.js + MongoDB)", desc: "Full stores with checkout, dashboard, DB integration." },
+          { title: "Custom Dashboards", desc: "Dashboards with analytics, charts, and permissions." },
+          { title: "API & Backend Development", desc: "Scalable secure backend systems with Node.js." },
+          { title: "Custom Software Solutions", desc: "Tailored software systems built for your business." },
         ],
       };
 
-  // دمج الترجمة مع الصور و الـ glow
   const services = t.list.map((item, index) => ({
     ...item,
     img: [
@@ -93,36 +56,19 @@ export default function Services({ locale }: { locale: string }) {
     ][index],
   }));
 
- const slideIn = {
-  hidden: { opacity: 0, x: 120 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.22,
-    },
-  },
-};
-
-
-
   return (
     <section
       className="
-       relative py-24 text-white
-    bg-[#050816]
-    overflow-x-hidden
-    bg-[url('/services/stars.png')]
-    bg-cover bg-center bg-no-repeat
-    before:content-['']
-    before:absolute before:inset-0
-    before:bg-[#050816cc]
-    before:backdrop-blur-[1px]
-    before:z-0
+        relative py-24 text-white 
+        bg-[#050816] 
+        overflow-x-hidden
+        bg-[url('/services/stars.png')] bg-cover bg-center bg-no-repeat
+        before:content-[''] before:absolute before:inset-0
+        before:bg-[#050816cc] before:backdrop-blur-[1px] before:z-0
       "
       dir={isArabic ? "rtl" : "ltr"}
     >
-      {/* Section Title */}
+      {/* Title */}
       <div className="text-center mb-14 relative z-10">
         <span className="px-4 py-1 text-xs rounded-full bg-white/10 border border-white/20 text-purple-200">
           {t.badge}
@@ -136,59 +82,60 @@ export default function Services({ locale }: { locale: string }) {
       </div>
 
       {/* Cards Grid */}
-      <motion.div
-        className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6"
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, amount: 0.15 }}
-      >
-        {services.map((service, i) => (
-          <motion.div
-            key={i}
-            variants={slideIn}
-            className="
-              relative group p-6 rounded-3xl
-              bg-[#0c0c17]/60 backdrop-blur-xl
-              border border-white/10
-              shadow-[0_0_30px_rgba(0,0,0,0.35)]
-              transition-all duration-300
-              hover:scale-[1.02]
-              hover:border-purple-400/20
-            "
-          >
-            {/* Glow */}
+      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
+        {services.map((service, i) => {
+          const { ref, visible } = useReveal();
+
+          return (
             <div
+              key={i}
+              ref={ref}
               className={`
-                absolute -inset-0.5 rounded-3xl opacity-0 
-                bg-gradient-to-br ${service.glow} to-transparent
-                blur-xl transition duration-500 
-                group-hover:opacity-40
+                relative group p-6 rounded-3xl
+                bg-[#0c0c17]/60 backdrop-blur-xl
+                border border-white/10
+                shadow-[0_0_30px_rgba(0,0,0,0.35)]
+                transition-all duration-300
+                hover:scale-[1.02]
+                hover:border-purple-400/20
+
+                ${visible ? "animate-slide-in" : "opacity-0 translate-x-[70px]"}
               `}
-            />
+            >
+              {/* Glow */}
+              <div
+                className={`
+                  absolute -inset-0.5 rounded-3xl opacity-0 
+                  bg-gradient-to-br ${service.glow} to-transparent
+                  blur-xl transition duration-500 
+                  group-hover:opacity-40
+                `}
+              />
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div className="w-full flex justify-center mb-6">
-                <div className="w-[78%]">
-                  <Image
-                    src={service.img}
-                    alt={service.title}
-                    width={400}
-                    height={300}
-                    className="opacity-90 drop-shadow-[0_0_18px_rgba(0,0,0,0.4)]"
-                  />
+              {/* Content */}
+              <div className="relative z-10 flex flex-col items-center text-center">
+                <div className="w-full flex justify-center mb-6">
+                  <div className="w-[78%]">
+                    <Image
+                      src={service.img}
+                      alt={service.title}
+                      width={400}
+                      height={300}
+                      className="opacity-90 drop-shadow-[0_0_18px_rgba(0,0,0,0.4)]"
+                    />
+                  </div>
                 </div>
+
+                <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
+
+                <p className="text-sm text-white/60 leading-relaxed">
+                  {service.desc}
+                </p>
               </div>
-
-              <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
-
-              <p className="text-sm text-white/60 leading-relaxed">
-                {service.desc}
-              </p>
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
+          );
+        })}
+      </div>
     </section>
   );
 }
