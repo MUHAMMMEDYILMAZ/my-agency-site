@@ -207,22 +207,22 @@ function ContactContent({ lang }: { lang: string }) {
           >
             <Mail className="w-7 h-7 text-purple-300 group-hover:text-purple-400 transition" />
             <span className="text-white/70 group-hover:text-white transition">
-              hello@nichegeeky.com
+              codeaura11@gmail.com
             </span>
           </a>
 
           <a
-            href="tel:+966551234567"
+            href="tel:+966535846431"
             className="flex flex-col items-center gap-2 mb-6 group cursor-pointer"
           >
             <Phone className="w-7 h-7 text-blue-300 group-hover:text-blue-400 transition" />
             <span className="text-white/70 group-hover:text-white transition">
-              +966 55 123 4567
+              966535846431
             </span>
           </a>
 
           <a
-            href="https://wa.me/966551234567"
+            href="https://wa.me/966535846431"
             target="_blank"
             className="flex flex-col items-center gap-2 group cursor-pointer"
           >
