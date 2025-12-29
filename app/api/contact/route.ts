@@ -5,13 +5,14 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { name, email, message, honey } = await req.json();
+    const { name, email, message, phone, honey } = await req.json();
 
-    // 🧅 HONEYPOT — منع البوتات
+    // 🧅 Honeypot
     if (honey && honey.trim() !== "") {
-      return NextResponse.json({ success: true }); // نتجاهله بدون خطأ
+      return NextResponse.json({ success: true });
     }
 
+    // تحقق من الحقول الأساسية
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: "Missing fields" },
@@ -19,37 +20,48 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔵 1) إرسال الإيميل إليك أنت (صاحب الموقع)
+    const now = new Date().toLocaleString();
+
+    // 1️⃣ إيميل لصاحب الموقع
     await resend.emails.send({
-      from: "CodeAura Contact <hamodeejamos@gmail.com>",
+      from: "CodeAura Contact <onboarding@resend.dev>",
       to: "hamodeejamos@gmail.com",
+      replyTo: email,
       subject: "📩 New Contact Form Message",
       html: `
-        <h2>New message from your website:</h2>
+        <h3>New message received</h3>
+        <p><strong>Date:</strong> ${now}</p>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
+        ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <blockquote>${message}</blockquote>
       `,
     });
 
-    // 🟢 2) إرسال رسالة تأكيد للعميل
+    // 2️⃣ إيميل تأكيد للمستخدم
     await resend.emails.send({
-      from: "CodeAura <hamodeejamos@gmail.com>",
+      from: "CodeAura <onboarding@resend.dev>",
       to: email,
-      subject: "Your message was received ✔",
+      subject: "We received your message ✔",
       html: `
         <h2>Thank you, ${name}!</h2>
-        <p>Your message has been received. Our team will reply shortly.</p>
+        <p>We have received your message on <strong>${now}</strong> with the following details:</p>
+        <ul>
+          <li><strong>Name:</strong> ${name}</li>
+          <li><strong>Email:</strong> ${email}</li>
+          ${phone ? `<li><strong>Phone:</strong> ${phone}</li>` : ""}
+        </ul>
+        <p><strong>Your message:</strong></p>
+        <blockquote>${message}</blockquote>
         <br/>
         <p>— CodeAura Team</p>
       `,
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error("EMAIL ERROR:", error);
-
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }

@@ -2,34 +2,42 @@
 
 import { ArrowRight, MessageCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import useReveal from "@/hooks/useReveal";
 
 export default function Hero({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
 
+  // ⚠️ هام: ضع رقمك هنا مع مفتاح الدولة
+  const whatsappNumber = "966535846431"; 
+
   const t = isArabic
     ? {
-        badge: "حلول الويب في مكان واحد",
-        title1: "إكسلانس ووردبريس لعملك –",
-        title2: "حلول مخصصة، نتائج أسرع!",
+        // نص قصير يوحي بالثقة
+        badge: "شريكك التقني نحو النجاح",
+        // العنوان الأول: المشكلة أو التمهيد
+        title1: "لا تكتفِ ببناء موقع إلكتروني،",
+        // العنوان الثاني (الملون): الوعد والنتيجة
+        title2: "بل ابنِ واجهة تضاعف مبيعاتك!",
+        // الوصف: تفاصيل الخدمة بأسلوب مقنع
         subtitle:
-          "نحن نبني مواقع ومتاجر آمنة، سريعة، وصديقة لمحركات البحث ومصممة لتحقيق أهدافك.",
-        chat: "الدردشة الآن",
-        quote: "احصل على عرض سعر",
-        tools: "نُحدث ثورة في حلول العملاء باستخدام أفضل الأدوات",
+          "نحول أفكارك إلى منصات رقمية احترافية. نقدم برمجة متطورة للمتاجر والمواقع، مع تحسين كامل لمحركات البحث (SEO) لضمان وصول عملائك إليك قبل المنافسين.",
+        // الأزرار
+        chat: "احصل على استشارة مجانية",
+        quote: "شاهد خدماتنا وحلولنا",
+        tools: "أدوات عالمية لمشاريع لا تقبل الخطأ",
       }
     : {
-        badge: "Web Solutions in One Place",
-        title1: "WordPress Excellence for Your Business –",
-        title2: "Custom Solutions, Faster Results!",
+        badge: "Your Partner for Digital Success",
+        title1: "Don't Just Build a Website,",
+        title2: "Build a Revenue Engine!",
         subtitle:
-          "We build secure, SEO-friendly, and high-performing websites and stores tailored to your goals.",
-        chat: "Chat Now",
-        quote: "Get A Quote",
-        tools: "Revolutionizing Client Solutions with the Best Tools",
+          "We turn ideas into powerful digital platforms. Offering advanced development for stores and websites, fully optimized for SEO to ensure customers find you before your competitors.",
+        chat: "Free Consultation",
+        quote: "View Our Solutions",
+        tools: "World-class tools for error-free projects",
       };
 
-  // hero animation using reveal hook
   const { ref, visible } = useReveal();
 
   return (
@@ -73,39 +81,77 @@ export default function Hero({ locale }: { locale: string }) {
       <h1
         className="
           text-2xl sm:text-3xl md:text-5xl font-semibold 
-          max-w-3xl mx-auto leading-tight px-4
+          max-w-4xl mx-auto leading-tight px-4
         "
       >
         {t.title1}{" "}
-        <span className="bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300 bg-clip-text text-transparent block md:inline mt-1 md:mt-0">
           {t.title2}
         </span>
       </h1>
 
       {/* SUBTITLE */}
-      <p className="mt-4 max-w-xl mx-auto text-white/70 text-sm sm:text-base px-5">
+      <p className="mt-6 max-w-2xl mx-auto text-white/70 text-sm sm:text-base px-5 leading-relaxed">
         {t.subtitle}
       </p>
 
       {/* BUTTONS */}
       <div
-        className={`mt-8 flex justify-center gap-4 flex-wrap px-4 ${
+        className={`mt-10 flex justify-center gap-4 flex-wrap px-4 ${
           isArabic ? "flex-row-reverse" : ""
         }`}
       >
-        <button className="flex items-center gap-2 border border-white/25 bg-white/5 hover:bg-white/10 px-5 py-2 rounded-full text-sm font-medium">
-          <MessageCircle className="h-4 w-4" />
-          {t.chat}
-        </button>
+        {/* زر الواتساب */}
+        <a
+          href={`https://wa.me/${whatsappNumber}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 border border-white/25 bg-white/5 hover:bg-white/10 px-6 py-3 rounded-full transition-colors group"
+        >
+          <MessageCircle className="h-4 w-4 text-purple-200 group-hover:text-white transition-colors" />
+          <span 
+            className={`
+              block leading-none
+              ${isArabic 
+                ? "text-[15px] font-semibold pb-[3px]" // ضبط العربي
+                : "text-sm font-medium pt-[1px]"        // ضبط الإنجليزي
+              }
+            `}
+          >
+            {t.chat}
+          </span>
+        </a>
 
-        <button className="group flex items-center gap-2 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-blue-500 shadow-[0_15px_40px_rgba(118,75,255,0.45)] px-7 py-2.5 rounded-full text-sm font-semibold">
-          {t.quote}
+        {/* زر الخدمات (الزر البنفسجي) */}
+        <Link
+          href={`/${locale}/services`}
+          className="
+            group flex items-center gap-2 
+            bg-gradient-to-r from-purple-500 via-fuchsia-500 to-blue-500 
+            shadow-[0_15px_40px_rgba(118,75,255,0.45)] 
+            px-7 py-3 rounded-full 
+            text-white hover:opacity-90 transition-opacity
+          "
+        >
+          <span 
+            className={`
+              block leading-none
+              ${isArabic 
+                ? "text-[15px] font-semibold pb-[3px]" // رفع النص العربي ليوازي السهم
+                : "text-sm font-medium pt-[1px]"        // إنزال الإنجليزي ليوازي السهم
+              }
+            `}
+          >
+            {t.quote}
+          </span>
+          
           <ArrowRight
-            className={`h-4 w-4 group-hover:translate-x-1 transition ${
-              isArabic ? "rotate-180" : ""
-            }`}
+            className={`
+              h-4 w-4 transition-transform duration-300
+              ${isArabic ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}
+            `}
           />
-        </button>
+        </Link>
       </div>
 
       {/* ICONS */}
@@ -128,6 +174,7 @@ export default function Hero({ locale }: { locale: string }) {
                 bg-black/25 border border-white/10
                 shadow-[0_4px_20px_rgba(0,0,0,0.35)]
                 backdrop-blur-xl
+                hover:scale-110 transition-transform duration-300
               "
             >
               <Image

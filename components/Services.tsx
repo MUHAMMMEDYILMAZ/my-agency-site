@@ -8,36 +8,76 @@ export default function Services({ locale }: { locale: string }) {
 
   const t = isArabic
     ? {
-        badge: "• خدماتنا •",
-        title: "حلول ويب احترافية",
+        badge: "خدماتنا المتميزة",
+        title: "نبتكر حلولاً رقمية تقودك للقمة",
         subtitle:
-          "نطوّر مواقع حديثة، آمنة، وسريعة الأداء باستخدام أحدث التقنيات لضمان نجاح أعمالك.",
+          "لا نقدم مجرد كود، بل نبني أصولاً رقمية مصممة لزيادة المبيعات، تعزيز الثقة، وضمان تجربة مستخدم لا تُنسى.",
         list: [
-          { title: "تطوير صفحات الهبوط", desc: "صفحات سريعة وعالية التحويل ببنية محسّنة وتجربة مستخدم سلسة." },
-          { title: "مواقع أعمال متعددة الصفحات", desc: "مواقع احترافية متجاوبة ومحسّنة للسيو لتقوية حضور علامتك." },
-          { title: "متجر إلكتروني (Next.js + MongoDB)", desc: "متاجر كاملة مع السلة والدفع ولوحة التحكم وتكاملات مرنة." },
-          { title: "لوحات تحكم مخصصة", desc: "لوحات إدارة مصممة خصيصًا مع صلاحيات وتحليلات وواجهة احترافية." },
-          { title: "API و Backend", desc: "بُنى خلفية قوية باستخدام Node.js مع أعلى مستويات الأمان." },
-          { title: "حلول برمجية مخصصة", desc: "أنظمة كاملة مصممة خصيصًا لتلبية احتياجات عملك بدقة." },
+          {
+            title: "موقع صفحة واحدة (Landing Pages)",
+            desc: "صفحات مصممة سيكولوجياً لتحويل الزوار إلى عملاء، مع سرعة تحميل فائقة تضمن عدم خسارة أي عميل محتمل.",
+          },
+          {
+            title: "مواقع شركات تعزز الهوية",
+            desc: "موقع رسمي متكامل يعكس احترافية علامتك التجارية، متجاوب مع جميع الشاشات وصديق لمحركات البحث (SEO).",
+          },
+          {
+            title: "متاجر إلكترونية ذكية",
+            desc: "ابنِ إمبراطوريتك التجارية بمتجر (Next.js) سريع، آمن، مع لوحة تحكم سلسة ونظام دفع متكامل لزيادة الأرباح.",
+          },
+          {
+            title: "لوحات تحكم (Dashboards) مخصصة",
+            desc: "راقب، حلل، وأدر عملك بذكاء. نصمم لك لوحات تحكم تعرض البيانات المعقدة ببساطة لتتخذ قراراتك بدقة.",
+          },
+          {
+            title: "بنية تحتية و API قوية",
+            desc: "نضمن استقرار تطبيقك تحت الضغط العالي ببناء خوادم (Backend) قوية ومحمية وقابلة للتوسع المستقبلي.",
+          },
+          {
+            title: "حلول برمجية مخصصة",
+            desc: "هل لديك فكرة فريدة؟ نحن هنا لتحويلها إلى واقع رقمي يلبي احتياجاتك الخاصة بدقة واحترافية.",
+          }
+          
         ],
       }
     : {
-        badge: "• Services •",
-        title: "Professional Web Solutions",
+        badge: "Our Core Services",
+        title: "Digital Solutions That Drive Growth",
         subtitle:
-          "We build modern, secure, high-performance web applications tailored for your business success.",
+          "We don't just write code; we build digital assets designed to increase revenue, build trust, and deliver unforgettable user experiences.",
         list: [
-          { title: "Landing Page Development", desc: "High-conversion landing pages built with fast modern technologies." },
-          { title: "Multi-Page Business Websites", desc: "Responsive, SEO-optimized websites with premium UI/UX." },
-          { title: "E-Commerce Store (Next.js + MongoDB)", desc: "Full stores with checkout, dashboard, DB integration." },
-          { title: "Custom Dashboards", desc: "Dashboards with analytics, charts, and permissions." },
-          { title: "API & Backend Development", desc: "Scalable secure backend systems with Node.js." },
-          { title: "Custom Software Solutions", desc: "Tailored software systems built for your business." },
+          {
+            title: "High-Converting Landing Pages",
+            desc: "Psychologically designed pages built to turn visitors into leads, with lightning-fast speeds to ensure zero drop-offs.",
+          },
+          {
+            title: "Corporate Identity Websites",
+            desc: "A full-scale professional website that reflects your brand authority, fully responsive and SEO-optimized.",
+          },
+          {
+            title: "Next-Gen E-Commerce Stores",
+            desc: "Scale your business with a secure, high-speed Next.js store featuring seamless checkout and powerful inventory management.",
+          },
+          {
+            title: "Custom Admin Dashboards",
+            desc: "Track, analyze, and manage smartly. We build intuitive dashboards that simplify complex data for better decision-making.",
+          },
+          {
+            title: "Robust API & Backend Architecture",
+            desc: "Ensure stability under high traffic with secure, scalable Node.js backend systems built for future growth.",
+          },
+          {
+            title: "Tailored Software Solutions",
+            desc: "Got a unique idea? We're here to turn it into a precise, professional digital solution that meets your specific needs.",
+          }
+          
+          
         ],
       };
 
   const services = t.list.map((item, index) => ({
     ...item,
+    // تأكد أن أسماء الصور صحيحة في ملفاتك
     img: [
       "/services/Landing-Page.webp",
       "/services/Multi-Page-Business-Websites.jpg",
@@ -69,21 +109,24 @@ export default function Services({ locale }: { locale: string }) {
       dir={isArabic ? "rtl" : "ltr"}
     >
       {/* Title */}
-      <div className="text-center mb-14 relative z-10">
-        <span className="px-4 py-1 text-xs rounded-full bg-white/10 border border-white/20 text-purple-200">
+      <div className="text-center mb-16 relative z-10 px-4">
+        <span className="px-4 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-purple-500/30 text-purple-200 tracking-wide">
           {t.badge}
         </span>
 
-        <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">{t.title}</h2>
+        <h2 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-white/70 pb-2">
+          {t.title}
+        </h2>
 
-        <p className="text-white/60 mt-2 text-sm max-w-xl mx-auto px-3">
+        <p className="text-white/60 mt-4 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
           {t.subtitle}
         </p>
       </div>
 
       {/* Cards Grid */}
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto px-6">
         {services.map((service, i) => {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
           const { ref, visible } = useReveal();
 
           return (
@@ -91,46 +134,60 @@ export default function Services({ locale }: { locale: string }) {
               key={i}
               ref={ref}
               className={`
-                relative group p-6 rounded-3xl
-                bg-[#0c0c17]/60 backdrop-blur-xl
-                border border-white/10
-                shadow-[0_0_30px_rgba(0,0,0,0.35)]
-                transition-all duration-300
-                hover:scale-[1.02]
-                hover:border-purple-400/20
+                relative group p-6 rounded-[32px]
+                bg-[#0c0c17]/80 backdrop-blur-xl
+                border border-white/5
+                hover:border-purple-500/30
+                shadow-[0_0_30px_rgba(0,0,0,0.2)]
+                transition-all duration-500 ease-out
+                hover:-translate-y-2
+                flex flex-col h-full
 
-                ${visible ? "animate-slide-in" : "opacity-0 translate-x-[70px]"}
+                ${visible ? "animate-slide-in opacity-100 translate-y-0" : "opacity-0 translate-y-[40px]"}
               `}
+              // إضافة تأخير بسيط لكل كرت لعمل تأثير تتابع
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
-              {/* Glow */}
+              {/* Glow Effect */}
               <div
                 className={`
-                  absolute -inset-0.5 rounded-3xl opacity-0 
-                  bg-gradient-to-br ${service.glow} to-transparent
-                  blur-xl transition duration-500 
-                  group-hover:opacity-40
+                  absolute -inset-[1px] rounded-[32px] opacity-0 
+                  bg-gradient-to-b ${service.glow} to-transparent
+                  blur-lg transition duration-500 
+                  group-hover:opacity-100 pointer-events-none
                 `}
               />
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col items-center text-center">
-                <div className="w-full flex justify-center mb-6">
-                  <div className="w-[78%]">
-                    <Image
-                      src={service.img}
-                      alt={service.title}
-                      width={400}
-                      height={300}
-                      className="opacity-90 drop-shadow-[0_0_18px_rgba(0,0,0,0.4)]"
-                    />
-                  </div>
+              {/* Card Content */}
+              <div className="relative z-10 flex flex-col h-full">
+                
+                {/* 1. Image Container - FIXED HEIGHT for alignment */}
+                {/* هذا هو السر: وضعنا ديف بارتفاع ثابت (h-48)
+                   بهذه الطريقة كل الصور تأخذ نفس الحيز المكاني
+                   مما يجبر العناوين بالأسفل أن تبدأ من نفس الخط
+                */}
+                <div className="w-full h-48 mb-6 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden p-4 group-hover:bg-white/10 transition-colors">
+                  <Image
+                    src={service.img}
+                    alt={service.title}
+                    width={400}
+                    height={300}
+                    // object-contain: تضمن ظهور الصورة كاملة دون قص داخل الحيز الثابت
+                    className="w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
 
-                <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
+                {/* 2. Text Content */}
+                <div className="text-center flex-grow flex flex-col">
+                  <h3 className="text-xl font-bold mb-3 text-white group-hover:text-purple-200 transition-colors">
+                    {service.title}
+                  </h3>
 
-                <p className="text-sm text-white/60 leading-relaxed">
-                  {service.desc}
-                </p>
+                  <p className="text-sm text-white/60 leading-relaxed font-light">
+                    {service.desc}
+                  </p>
+                </div>
+                
               </div>
             </div>
           );
