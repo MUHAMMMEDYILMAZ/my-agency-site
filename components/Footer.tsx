@@ -19,7 +19,7 @@ export default function Footer({ locale }: { locale: string }) {
         contactUs: "اتصل بنا",
         services: "خدماتنا",
         copyright:
-          "© جميع الحقوق محفوظة لـ Niche Geeky " + new Date().getFullYear(),
+          "© جميع الحقوق محفوظة لـ Code Aura " + new Date().getFullYear(),
         featuresList: [
           "تصميم وتطوير المواقع",
           "استضافة ودومين مجاني",
@@ -48,7 +48,7 @@ export default function Footer({ locale }: { locale: string }) {
         contactUs: "Contact Us",
         services: "Our Services",
         copyright:
-          "Niche Geeky © " + new Date().getFullYear() + " All rights reserved.",
+          "Code Aura © " + new Date().getFullYear() + " All rights reserved.",
         featuresList: [
           "Web Design & Dev",
           "Free Hosting & Domain",
