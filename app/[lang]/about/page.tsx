@@ -199,14 +199,13 @@ function Mission({
         <div className="relative">
           <div className="absolute -inset-6 bg-purple-600/20 blur-3xl rounded-full -z-10" />
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
-            <video
-      src="/aboutv.mp4"   // ضع رابط الفيديو هنا
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="w-full h-full object-cover hover:scale-[1.05] transition duration-500"
-    />
+            <Image
+              src="/about.png"
+              alt="Our Mission"
+              width={600}
+              height={400}
+              className="w-full h-auto object-cover"
+            />
     
           </div>
         </div>

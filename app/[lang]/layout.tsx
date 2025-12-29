@@ -15,12 +15,21 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة."
     : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance.";
 
-  const baseUrl = "https://my-agency-site-red.vercel.app"; // غيّرها لاحقاً عند رفع الموقع
+  const baseUrl = "https://my-agency-site-red.vercel.app";
 
   return {
     title,
     description,
     metadataBase: new URL(baseUrl),
+
+    // 👇👇👇 1. أضف هذا الجزء الخاص بالأيقونة 👇👇👇
+    icons: {
+      icon: "/og-image12.png", // تأكد أن لديك ملف بهذا الاسم في مجلد public
+      // أو يمكنك استخدام صورة png صغيرة
+      // icon: "/logo.png", 
+      apple: "/og-image12.png", // اختياري (للأيفون)
+    },
+    // 👆👆👆 نهاية الإضافة 👆👆👆
 
     alternates: {
       canonical: `${baseUrl}/${lang}`,
@@ -56,7 +65,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-// NEXT 13+ dynamic params = PROMISE (لم ألمسه أبداً)
 export default async function LangLayout({
   children,
   params,
@@ -64,7 +72,6 @@ export default async function LangLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  // MUST AWAIT PARAMS (تركتها كما هي)
   const { lang } = await params;
 
   return (
