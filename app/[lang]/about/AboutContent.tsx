@@ -200,19 +200,24 @@ function Mission({
         </div>
 
         {/* IMAGE */}
-        <div className="relative group">
-          <div className="absolute -inset-4 bg-purple-600/20 blur-3xl rounded-full -z-10 group-hover:bg-purple-600/30 transition duration-500" />
-          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
-            <Image
-              src="/about.png"
-              alt="CodeAura Mission"
-              width={600}
-              height={400}
-              className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700"
-              priority
-            />
-          </div>
-        </div>
+        {/* IMAGE CONTAINER */}
+<div className="relative group">
+  {/* Glow Effect */}
+  <div className="absolute -inset-4 bg-purple-600/20 blur-3xl rounded-full -z-10 group-hover:bg-purple-600/30 transition duration-500" />
+  
+  <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
+    <Image
+      src="/about.webp" // 1. غيرناها إلى WebP
+      alt="CodeAura Mission"
+      width={600}
+      height={400}
+      // 2. أضفنا Sizes لتحميل الحجم المناسب لكل شاشة
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+      className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-700"
+      priority
+    />
+  </div>
+</div>
       </div>
     </div>
   );

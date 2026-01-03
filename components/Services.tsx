@@ -3,7 +3,7 @@
 import Image from "next/image";
 import useReveal from "@/hooks/useReveal";
 
-// --- 1. تعريف نوع البيانات (Typescript Interface) ---
+// --- 1. تعريف نوع البيانات ---
 interface ServiceItem {
   title: string;
   desc: string;
@@ -11,7 +11,7 @@ interface ServiceItem {
   glow: string;
 }
 
-// --- 2. مكون الكرت المنفصل (هنا نستخدم الهوك بأمان) ---
+// --- 2. مكون الكرت المنفصل ---
 function ServiceCard({ service, index }: { service: ServiceItem; index: number }) {
   const { ref, visible } = useReveal();
 
@@ -48,16 +48,17 @@ function ServiceCard({ service, index }: { service: ServiceItem; index: number }
         <div className="w-full h-48 mb-6 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden p-4 group-hover:bg-white/10 transition-colors">
           <Image
             src={service.img}
-            alt={service.title} // ✅ SEO ممتاز: النص البديل هو عنوان الخدمة
+            alt={service.title}
             width={400}
             height={300}
+            // 👇 التعديل 1: إضافة sizes لتحميل الحجم المناسب لكل شاشة
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-500"
           />
         </div>
 
         {/* Text Content */}
         <div className="text-center flex-grow flex flex-col">
-          {/* ✅ SEO: استخدام h3 للعناوين الفرعية ممتاز */}
           <h3 className="text-xl font-bold mb-3 text-white group-hover:text-purple-200 transition-colors">
             {service.title}
           </h3>
@@ -145,11 +146,11 @@ export default function Services({ locale }: { locale: string }) {
     ...item,
     img: [
       "/services/Landing-Page.webp",
-      "/services/Multi-Page-Business-Websites.jpg",
-      "/services/E-Commerce-Store.jpg",
-      "/services/Custom-Dashboards.png",
+      "/services/Multi-Page-Business-Websites.webp",
+      "/services/E-Commerce-Store.webp",
+      "/services/Custom-Dashboards.webp",
       "/services/API-Backend.webp",
-      "/services/Custom-Solutions.jpg",
+      "/services/Custom-Solutions.webp",
     ][index],
     glow: [
       "from-purple-500/20",
@@ -167,19 +168,32 @@ export default function Services({ locale }: { locale: string }) {
         relative w-full overflow-x-hidden
         py-24 text-white 
         bg-[#050816] 
-        bg-[url('/services/stars.png')] bg-cover bg-center bg-no-repeat
-        before:content-[''] before:absolute before:inset-0
-        before:bg-[#050816cc] before:backdrop-blur-[1px] before:z-0
       "
       dir={isArabic ? "rtl" : "ltr"}
     >
+      {/* 👇 التعديل الجوهري (الحل لمشكلة LCP):
+        استخدام Next/Image للخلفية بدلاً من CSS 
+      */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/services/stars.jpg"
+          alt="Stars Background"
+          fill // يملأ كامل القسم
+          priority // ⚡️ يحمل الصورة فوراً (يحل مشكلة الـ 8 ثواني)
+          quality={60} // جودة 60 كافية جداً للخلفيات
+          className="object-cover opacity-60" // تحكم بالشفافية هنا
+          sizes="100vw"
+        />
+        {/* طبقة تظليل فوق الصورة لزيادة وضوح النص */}
+        <div className="absolute inset-0 bg-[#050816cc] backdrop-blur-[1px]" />
+      </div>
+
       {/* Title */}
       <div className="text-center mb-16 relative z-10 px-4">
         <span className="px-4 py-1.5 text-xs font-medium rounded-full bg-white/5 border border-purple-500/30 text-purple-200 tracking-wide">
           {t.badge}
         </span>
 
-        {/* ✅ SEO: عنوان القسم h2 ممتاز */}
         <h2 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-white/70 pb-2">
           {t.title}
         </h2>
@@ -192,7 +206,6 @@ export default function Services({ locale }: { locale: string }) {
       {/* Cards Grid */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto px-6 relative z-10">
         {services.map((service, i) => (
-          // هنا نمرر البيانات للكرت الفرعي، وهو يتعامل مع الـ Hooks بداخله
           <ServiceCard key={i} service={service} index={i} />
         ))}
       </div>

@@ -92,6 +92,7 @@ export default function Footer({ locale }: { locale: string }) {
               sizes="100vw"
               // استخدمنا h-[50px] ليكون بنفس حجم الهيدر، و w-auto للحفاظ على الأبعاد
               className="w-auto h-[50px] object-contain mb-4"
+              priority
             />
           </Link>
 
