@@ -3,12 +3,81 @@
 import Image from "next/image";
 import useReveal from "@/hooks/useReveal";
 
+// --- 1. تعريف نوع البيانات (Typescript Interface) ---
+interface ServiceItem {
+  title: string;
+  desc: string;
+  img: string;
+  glow: string;
+}
+
+// --- 2. مكون الكرت المنفصل (هنا نستخدم الهوك بأمان) ---
+function ServiceCard({ service, index }: { service: ServiceItem; index: number }) {
+  const { ref, visible } = useReveal();
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        relative group p-6 rounded-[32px]
+        bg-[#0c0c17]/80 backdrop-blur-xl
+        border border-white/5
+        hover:border-purple-500/30
+        shadow-[0_0_30px_rgba(0,0,0,0.2)]
+        transition-all duration-500 ease-out
+        hover:-translate-y-2
+        flex flex-col h-full
+
+        ${visible ? "animate-slide-in opacity-100 translate-y-0" : "opacity-0 translate-y-[40px]"}
+      `}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      {/* Glow Effect */}
+      <div
+        className={`
+          absolute -inset-[1px] rounded-[32px] opacity-0 
+          bg-gradient-to-b ${service.glow} to-transparent
+          blur-lg transition duration-500 
+          group-hover:opacity-100 pointer-events-none
+        `}
+      />
+
+      {/* Card Content */}
+      <div className="relative z-10 flex flex-col h-full">
+        {/* Image Container */}
+        <div className="w-full h-48 mb-6 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden p-4 group-hover:bg-white/10 transition-colors">
+          <Image
+            src={service.img}
+            alt={service.title} // ✅ SEO ممتاز: النص البديل هو عنوان الخدمة
+            width={400}
+            height={300}
+            className="w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+
+        {/* Text Content */}
+        <div className="text-center flex-grow flex flex-col">
+          {/* ✅ SEO: استخدام h3 للعناوين الفرعية ممتاز */}
+          <h3 className="text-xl font-bold mb-3 text-white group-hover:text-purple-200 transition-colors">
+            {service.title}
+          </h3>
+
+          <p className="text-sm text-white/60 leading-relaxed font-light">
+            {service.desc}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- 3. المكون الرئيسي ---
 export default function Services({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
 
   const t = isArabic
     ? {
-        badge: "خدماتنا المتميزة",
+        badge: "• خدماتنا المتميزة •",
         title: "نبتكر حلولاً رقمية تقودك للقمة",
         subtitle:
           "لا نقدم مجرد كود، بل نبني أصولاً رقمية مصممة لزيادة المبيعات، تعزيز الثقة، وضمان تجربة مستخدم لا تُنسى.",
@@ -36,8 +105,7 @@ export default function Services({ locale }: { locale: string }) {
           {
             title: "حلول برمجية مخصصة",
             desc: "هل لديك فكرة فريدة؟ نحن هنا لتحويلها إلى واقع رقمي يلبي احتياجاتك الخاصة بدقة واحترافية.",
-          }
-          
+          },
         ],
       }
     : {
@@ -69,15 +137,12 @@ export default function Services({ locale }: { locale: string }) {
           {
             title: "Tailored Software Solutions",
             desc: "Got a unique idea? We're here to turn it into a precise, professional digital solution that meets your specific needs.",
-          }
-          
-          
+          },
         ],
       };
 
   const services = t.list.map((item, index) => ({
     ...item,
-    // تأكد أن أسماء الصور صحيحة في ملفاتك
     img: [
       "/services/Landing-Page.webp",
       "/services/Multi-Page-Business-Websites.jpg",
@@ -99,9 +164,9 @@ export default function Services({ locale }: { locale: string }) {
   return (
     <section
       className="
-        relative py-24 text-white 
+        relative w-full overflow-x-hidden
+        py-24 text-white 
         bg-[#050816] 
-        overflow-x-hidden
         bg-[url('/services/stars.png')] bg-cover bg-center bg-no-repeat
         before:content-[''] before:absolute before:inset-0
         before:bg-[#050816cc] before:backdrop-blur-[1px] before:z-0
@@ -114,6 +179,7 @@ export default function Services({ locale }: { locale: string }) {
           {t.badge}
         </span>
 
+        {/* ✅ SEO: عنوان القسم h2 ممتاز */}
         <h2 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-white/70 pb-2">
           {t.title}
         </h2>
@@ -124,74 +190,11 @@ export default function Services({ locale }: { locale: string }) {
       </div>
 
       {/* Cards Grid */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto px-6">
-        {services.map((service, i) => {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const { ref, visible } = useReveal();
-
-          return (
-            <div
-              key={i}
-              ref={ref}
-              className={`
-                relative group p-6 rounded-[32px]
-                bg-[#0c0c17]/80 backdrop-blur-xl
-                border border-white/5
-                hover:border-purple-500/30
-                shadow-[0_0_30px_rgba(0,0,0,0.2)]
-                transition-all duration-500 ease-out
-                hover:-translate-y-2
-                flex flex-col h-full
-
-                ${visible ? "animate-slide-in opacity-100 translate-y-0" : "opacity-0 translate-y-[40px]"}
-              `}
-              // إضافة تأخير بسيط لكل كرت لعمل تأثير تتابع
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              {/* Glow Effect */}
-              <div
-                className={`
-                  absolute -inset-[1px] rounded-[32px] opacity-0 
-                  bg-gradient-to-b ${service.glow} to-transparent
-                  blur-lg transition duration-500 
-                  group-hover:opacity-100 pointer-events-none
-                `}
-              />
-
-              {/* Card Content */}
-              <div className="relative z-10 flex flex-col h-full">
-                
-                {/* 1. Image Container - FIXED HEIGHT for alignment */}
-                {/* هذا هو السر: وضعنا ديف بارتفاع ثابت (h-48)
-                   بهذه الطريقة كل الصور تأخذ نفس الحيز المكاني
-                   مما يجبر العناوين بالأسفل أن تبدأ من نفس الخط
-                */}
-                <div className="w-full h-48 mb-6 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden p-4 group-hover:bg-white/10 transition-colors">
-                  <Image
-                    src={service.img}
-                    alt={service.title}
-                    width={400}
-                    height={300}
-                    // object-contain: تضمن ظهور الصورة كاملة دون قص داخل الحيز الثابت
-                    className="w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-
-                {/* 2. Text Content */}
-                <div className="text-center flex-grow flex flex-col">
-                  <h3 className="text-xl font-bold mb-3 text-white group-hover:text-purple-200 transition-colors">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm text-white/60 leading-relaxed font-light">
-                    {service.desc}
-                  </p>
-                </div>
-                
-              </div>
-            </div>
-          );
-        })}
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto px-6 relative z-10">
+        {services.map((service, i) => (
+          // هنا نمرر البيانات للكرت الفرعي، وهو يتعامل مع الـ Hooks بداخله
+          <ServiceCard key={i} service={service} index={i} />
+        ))}
       </div>
     </section>
   );

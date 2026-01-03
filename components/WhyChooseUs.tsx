@@ -2,7 +2,65 @@
 
 import { CheckCircle, Zap, Search, Shield, Code2, Headphones } from "lucide-react";
 import useReveal from "@/hooks/useReveal";
+import { ReactNode } from "react";
 
+// --- 1. تعريف نوع البيانات ---
+interface FeatureItem {
+  title: string;
+  desc: string;
+  icon: ReactNode; // لأنك تمرر الأيقونة كعنصر JSX
+  glow: string;
+}
+
+// --- 2. مكون الكرت المنفصل (هنا نستخدم الهوك بأمان) ---
+function FeatureCard({ item, index }: { item: FeatureItem; index: number }) {
+  const { ref, visible } = useReveal();
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        relative group p-6 rounded-2xl
+        bg-white/5 backdrop-blur-xl
+        border border-white/10
+        shadow-[0_0_30px_rgba(0,0,0,0.4)]
+        transition-all duration-300
+        hover:scale-[1.03]
+        hover:border-purple-400/30
+
+        ${visible ? "animate-why" : "opacity-0 translate-y-[30px]"}
+      `}
+      // إضافة تأخير بسيط بناءً على الفهرس
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      {/* Glow Effect */}
+      <div
+        className={`
+          absolute -inset-0.5 rounded-2xl opacity-0 
+          bg-gradient-to-br ${item.glow} to-transparent
+          blur-xl transition duration-500 
+          group-hover:opacity-40
+        `}
+      />
+
+      {/* Content */}
+      <div className="relative z-10">
+        <div className="mb-4 p-3 w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+          {item.icon}
+        </div>
+
+        {/* SEO: H3 is perfect here */}
+        <h3 className="text-lg font-semibold mb-2 text-white">{item.title}</h3>
+
+        <p className="text-sm text-white/60 leading-relaxed">
+          {item.desc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// --- 3. المكون الرئيسي ---
 export default function WhyChooseUs({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
 
@@ -38,7 +96,7 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
 
   return (
     <section
-      className="why-bg relative py-24 text-white bg-[#050816] overflow-x-hidden"
+      className="relative py-24 text-white bg-[#050816] overflow-x-hidden px-4"
       dir={isArabic ? "rtl" : "ltr"}
     >
       {/* TITLE */}
@@ -47,6 +105,7 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
           {t.badge}
         </span>
 
+        {/* SEO: H2 tag is correct */}
         <h2 className="mt-4 text-3xl sm:text-4xl font-semibold">{t.title}</h2>
 
         <p className="text-white/60 mt-2 text-sm max-w-xl mx-auto">
@@ -56,49 +115,10 @@ export default function WhyChooseUs({ locale }: { locale: string }) {
 
       {/* FEATURES GRID */}
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-6">
-        {t.features.map((item, i) => {
-          const { ref, visible } = useReveal();
-
-          return (
-            <div
-              key={i}
-              ref={ref}
-              className={`
-                relative group p-6 rounded-2xl
-                bg-white/5 backdrop-blur-xl
-                border border-white/10
-                shadow-[0_0_30px_rgba(0,0,0,0.4)]
-                transition-all duration-300
-                hover:scale-[1.03]
-                hover:border-purple-400/30
-
-                ${visible ? "animate-why" : "opacity-0 translate-y-[30px]"}
-              `}
-            >
-              {/* Glow */}
-              <div
-                className={`
-                  absolute -inset-0.5 rounded-2xl opacity-0 
-                  bg-gradient-to-br ${item.glow} to-transparent
-                  blur-xl transition duration-500 
-                  group-hover:opacity-40
-                `}
-              />
-
-              <div className="relative z-10">
-                <div className="mb-4 p-3 w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                  {item.icon}
-                </div>
-
-                <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-
-                <p className="text-sm text-white/60 leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+        {t.features.map((item, i) => (
+          // استدعاء المكون الفرعي هنا
+          <FeatureCard key={i} item={item} index={i} />
+        ))}
       </div>
     </section>
   );

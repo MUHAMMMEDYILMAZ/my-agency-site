@@ -18,6 +18,15 @@ const config: Config = {
         "gradient-main":
           "linear-gradient(to bottom right, #050816, #08001F, #21004A)",
       },
+      // 👇 هنا تمت إضافة إعدادات الحركة (Animation)
+      animation: {
+        shine: "shine 1s",
+      },
+      keyframes: {
+        shine: {
+          "100%": { left: "125%" },
+        },
+      },
     },
   },
   plugins: [],

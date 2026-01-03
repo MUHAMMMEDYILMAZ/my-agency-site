@@ -7,22 +7,15 @@ import useReveal from "@/hooks/useReveal";
 
 export default function Hero({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
-
-  // ⚠️ هام: ضع رقمك هنا مع مفتاح الدولة
-  const whatsappNumber = "966535846431"; 
+  const whatsappNumber = "966535846431";
 
   const t = isArabic
     ? {
-        // نص قصير يوحي بالثقة
         badge: "شريكك التقني نحو النجاح",
-        // العنوان الأول: المشكلة أو التمهيد
         title1: "لا تكتفِ ببناء موقع إلكتروني،",
-        // العنوان الثاني (الملون): الوعد والنتيجة
         title2: "بل ابنِ واجهة تضاعف مبيعاتك!",
-        // الوصف: تفاصيل الخدمة بأسلوب مقنع
         subtitle:
           "نحول أفكارك إلى منصات رقمية احترافية. نقدم برمجة متطورة للمتاجر والمواقع، مع تحسين كامل لمحركات البحث (SEO) لضمان وصول عملائك إليك قبل المنافسين.",
-        // الأزرار
         chat: "احصل على استشارة مجانية",
         quote: "شاهد خدماتنا وحلولنا",
         tools: "أدوات عالمية لمشاريع لا تقبل الخطأ",
@@ -38,19 +31,28 @@ export default function Hero({ locale }: { locale: string }) {
         tools: "World-class tools for error-free projects",
       };
 
+  // 👇 تحسين SEO: مصفوفة تحتوي على الاسم للوصف البديل
+  const techStack = [
+    { src: "/html-5-icon.svg", name: "HTML5" },
+    { src: "/javascript-logo.svg", name: "JavaScript" },
+    { src: "/nextjs-icon.png", name: "Next.js Framework" },
+    { src: "/nodejs-icon.svg", name: "Node.js Environment" },
+    { src: "/react-icon.svg", name: "React Library" },
+  ];
+
   const { ref, visible } = useReveal();
 
   return (
     <section
       ref={ref}
+      // 👇 تم إضافة w-full و max-w-full لضمان عدم الخروج عن الإطار
       className={`
-        bg-[#050816]
-        relative text-white 
+        relative w-full max-w-full overflow-hidden
+        bg-[#050816] text-white 
         pt-32 sm:pt-28 md:pt-32 
         pb-10 sm:pb-24
         text-center
         bg-gradient-to-br from-[#0a0724] via-[#120a3a] to-[#050816]
-        overflow-hidden
         bg-[url('data:image/svg+xml,%3Csvg%20width%3D%221120%22%20height%3D%221120%22%20viewBox%3D%220%200%20100%20100%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M50%200%20L100%2050%20L50%20100%20L0%2050%20Z%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff10%22%20stroke-width%3D%221%22/%3E%3C/svg%3E')]
         bg-[length:180px]
 
@@ -58,11 +60,23 @@ export default function Hero({ locale }: { locale: string }) {
       `}
       dir={isArabic ? "rtl" : "ltr"}
     >
-      {/* LEFT PURPLE GLOW */}
-      <div className="absolute -top-40 -left-20 w-[400px] h-[400px] sm:w-[480px] sm:h-[480px] bg-purple-700/40 blur-[140px] -z-10" />
+      {/* LEFT PURPLE GLOW - جعلناه متجاوباً */}
+      <div 
+        className="
+          absolute -top-40 -left-20 -z-10
+          w-full max-w-[400px] h-[400px] sm:max-w-[480px] sm:h-[480px] 
+          bg-purple-700/40 blur-[140px]
+        " 
+      />
 
-      {/* RIGHT BLUE GLOW */}
-      <div className="absolute bottom-0 right-0 w-[420px] h-[420px] sm:w-[550px] sm:h-[550px] bg-fuchsia-500/30 blur-[150px] -z-10" />
+      {/* RIGHT BLUE GLOW - جعلناه متجاوباً */}
+      <div 
+        className="
+          absolute bottom-0 right-0 -z-10
+          w-full max-w-[420px] h-[420px] sm:max-w-[550px] sm:h-[550px] 
+          bg-fuchsia-500/30 blur-[150px]
+        " 
+      />
 
       {/* DARK OVERLAY */}
       <div className="absolute inset-0 bg-black/20 -z-10" />
@@ -101,7 +115,6 @@ export default function Hero({ locale }: { locale: string }) {
           isArabic ? "flex-row-reverse" : ""
         }`}
       >
-        {/* زر الواتساب */}
         <a
           href={`https://wa.me/${whatsappNumber}`}
           target="_blank"
@@ -112,17 +125,13 @@ export default function Hero({ locale }: { locale: string }) {
           <span 
             className={`
               block leading-none
-              ${isArabic 
-                ? "text-[15px] font-semibold pb-[3px]" // ضبط العربي
-                : "text-sm font-medium pt-[1px]"        // ضبط الإنجليزي
-              }
+              ${isArabic ? "text-[15px] font-semibold pb-[3px]" : "text-sm font-medium pt-[1px]"}
             `}
           >
             {t.chat}
           </span>
         </a>
 
-        {/* زر الخدمات (الزر البنفسجي) */}
         <Link
           href={`/${locale}/services`}
           className="
@@ -136,10 +145,7 @@ export default function Hero({ locale }: { locale: string }) {
           <span 
             className={`
               block leading-none
-              ${isArabic 
-                ? "text-[15px] font-semibold pb-[3px]" // رفع النص العربي ليوازي السهم
-                : "text-sm font-medium pt-[1px]"        // إنزال الإنجليزي ليوازي السهم
-              }
+              ${isArabic ? "text-[15px] font-semibold pb-[3px]" : "text-sm font-medium pt-[1px]"}
             `}
           >
             {t.quote}
@@ -159,13 +165,7 @@ export default function Hero({ locale }: { locale: string }) {
         <p className="text-white/70 text-sm mb-6">{t.tools}</p>
 
         <div className="flex justify-center flex-wrap gap-6 sm:gap-8 px-4">
-          {[
-            "/html-5-icon.svg",
-            "/javascript-logo.svg",
-            "/nextjs-icon.png",
-            "/nodejs-icon.svg",
-            "/react-icon.svg",
-          ].map((src, i) => (
+          {techStack.map((item, i) => (
             <div
               key={i}
               className="
@@ -178,8 +178,8 @@ export default function Hero({ locale }: { locale: string }) {
               "
             >
               <Image
-                src={src}
-                alt="tech"
+                src={item.src}
+                alt={item.name} // 👈 تم تصحيح الـ Alt Text هنا
                 width={40}
                 height={40}
                 className="w-7 h-7 sm:w-8 sm:h-8 opacity-90"

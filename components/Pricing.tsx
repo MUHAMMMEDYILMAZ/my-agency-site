@@ -2,8 +2,101 @@
 
 import { Check } from "lucide-react";
 import useReveal from "@/hooks/useReveal";
-import Link from "next/link"; // 👈 استيراد Link ضروري
+import Link from "next/link";
 
+// --- 1. تعريف نوع البيانات ---
+interface PlanItem {
+  title: string;
+  price: string;
+  tag: string;
+  buttonColor: string;
+  features: string[];
+}
+
+// --- 2. مكون البطاقة المنفصل (يحتوي على الـ Hook والـ Logic) ---
+function PricingCard({ 
+  plan, 
+  index, 
+  locale, 
+  t_demo, 
+  t_whatYouGet 
+}: { 
+  plan: PlanItem; 
+  index: number; 
+  locale: string; 
+  t_demo: string; 
+  t_whatYouGet: string;
+}) {
+  // ✅ استدعاء الهوك هنا آمن وصحيح
+  const { ref, visible } = useReveal();
+
+  // تجهيز الرابط
+  const planLink = `/${locale}/contact?plan=${encodeURIComponent(plan.title)}`;
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        relative group p-8 rounded-3xl
+        bg-[#0b0b16]/70 backdrop-blur-xl
+        border border-white/10
+        shadow-[0_0_40px_rgba(0,0,0,0.35)]
+        transition-all duration-300
+        hover:scale-[1.03]
+        hover:border-purple-400/20
+        flex flex-col
+
+        ${visible ? "animate-pricing" : "opacity-0 scale-[0.85]"}
+      `}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      {/* Glow */}
+      <div
+        className="
+          absolute -inset-1 rounded-3xl opacity-0 
+          bg-gradient-to-r from-purple-500/20 to-blue-500/20
+          blur-xl transition duration-500 
+          group-hover:opacity-40
+        "
+      />
+
+      <div className="relative z-10 flex flex-col h-full">
+        <h3 className="text-lg font-semibold mb-2 text-white">{plan.title}</h3>
+
+        <div className="text-4xl font-bold text-white">
+          {plan.price}
+          <span className="text-sm text-white/40 ml-1">/{plan.tag}</span>
+        </div>
+
+        {/* زر الطلب */}
+        <Link
+          href={planLink}
+          className={`
+            block w-full text-center py-2 mt-6 rounded-full font-medium text-sm
+            bg-gradient-to-r ${plan.buttonColor}
+            shadow-[0_15px_40px_rgba(118,75,255,0.35)]
+            text-white transition hover:opacity-90
+          `}
+        >
+          {t_demo}
+        </Link>
+
+        <p className="text-xs text-white/50 mt-6 mb-3">{t_whatYouGet}</p>
+
+        <div className="space-y-3 flex-grow">
+          {plan.features.map((feature, idx) => (
+            <div key={idx} className="flex items-start gap-2">
+              <Check className="w-4 h-4 text-purple-300 mt-1 flex-shrink-0" />
+              <span className="text-sm text-white/70">{feature}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- 3. المكون الرئيسي ---
 export default function Pricing({ locale }: { locale: string }) {
   const isArabic = locale === "ar";
 
@@ -117,10 +210,10 @@ export default function Pricing({ locale }: { locale: string }) {
 
   return (
     <section
-      className="relative py-24 text-white colorp"
+      className="relative py-24 text-white overflow-x-hidden"
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="text-center mb-16">
+      <div className="text-center mb-16 px-4">
         <span className="px-4 py-1 text-xs rounded-full bg-white/10 border border-white/20 text-purple-200">
           {t.badge}
         </span>
@@ -129,74 +222,16 @@ export default function Pricing({ locale }: { locale: string }) {
       </div>
 
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-3 px-6">
-        {t.plans.map((plan, i) => {
-          const { ref, visible } = useReveal();
-
-          // 1️⃣ هنا نقوم بتجهيز رابط الخطة
-          // نستخدم encodeURIComponent لضمان أن المسافات في الاسم لا تسبب مشاكل في الرابط
-          const planLink = `/${locale}/contact?plan=${encodeURIComponent(plan.title)}`;
-
-          return (
-            <div
-              key={i}
-              ref={ref}
-              className={`
-                relative group p-8 rounded-3xl
-                bg-[#0b0b16]/70 backdrop-blur-xl
-                border border-white/10
-                shadow-[0_0_40px_rgba(0,0,0,0.35)]
-                transition-all duration-300
-                hover:scale-[1.03]
-                hover:border-purple-400/20
-
-                ${visible ? "animate-pricing" : "opacity-0 scale-[0.85]"}
-              `}
-            >
-              {/* Glow */}
-              <div
-                className="
-                  absolute -inset-1 rounded-3xl opacity-0 
-                  bg-gradient-to-r from-purple-500/20 to-blue-500/20
-                  blur-xl transition duration-500 
-                  group-hover:opacity-40
-                "
-              />
-
-              <div className="relative z-10">
-                <h3 className="text-lg font-semibold mb-2">{plan.title}</h3>
-
-                <div className="text-4xl font-bold">
-                  {plan.price}
-                  <span className="text-sm text-white/40 ml-1">/{plan.tag}</span>
-                </div>
-
-                {/* 2️⃣ استبدال الزر بـ Link */}
-                <Link
-                  href={planLink}
-                  className={`
-                    block w-full text-center py-2 mt-6 rounded-full font-medium text-sm
-                    bg-gradient-to-r ${plan.buttonColor}
-                    shadow-[0_15px_40px_rgba(118,75,255,0.35)]
-                    transition hover:opacity-90
-                  `}
-                >
-                  {t.demo}
-                </Link>
-
-                <p className="text-xs text-white/50 mt-6 mb-3">{t.whatYouGet}</p>
-
-                <div className="space-y-3">
-                  {plan.features.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-purple-300 mt-1" />
-                      <span className="text-sm text-white/70">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {t.plans.map((plan, i) => (
+          <PricingCard 
+            key={i} 
+            plan={plan} 
+            index={i}
+            locale={locale}
+            t_demo={t.demo}
+            t_whatYouGet={t.whatYouGet}
+          />
+        ))}
       </div>
     </section>
   );

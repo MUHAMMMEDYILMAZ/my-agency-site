@@ -1,8 +1,23 @@
 import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+// 1. استيراد الخطوط من جوجل لضمان جمالية الموقع وسرعته
+import { Cairo, Inter } from "next/font/google";
 
-// ⭐⭐⭐ SEO ONLY — WITHOUT CHANGING ANYTHING IN YOUR LAYOUT ⭐⭐⭐
+// إعداد خط Inter للغة الإنجليزية
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+// إعداد خط Cairo للغة العربية (احترافي جداً)
+const cairo = Cairo({
+  subsets: ["arabic"],
+  variable: "--font-cairo",
+  display: "swap",
+});
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const isArabic = lang === "ar";
@@ -12,24 +27,46 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     : "CodeAura — Professional Web Development | Websites, Stores, Systems";
 
   const description = isArabic
-    ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة."
-    : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance.";
+    ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة. اطلب موقعك الآن."
+    : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance. Get your website today.";
 
-  const baseUrl = "https://my-agency-site-red.vercel.app";
+  // يفضل وضع الرابط في متغير بيئة، لكن لا بأس به هكذا حالياً
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://my-agency-site-red.vercel.app";
 
   return {
     title,
     description,
     metadataBase: new URL(baseUrl),
+    
+    // 2. الكلمات المفتاحية (مهمة جداً لجوجل)
+    keywords: isArabic 
+      ? ["تصميم مواقع", "برمجة متاجر", "تطوير ويب", "Next.js", "تسويق رقمي", "CodeAura", "سيو"]
+      : ["Web Development", "E-commerce", "Next.js Agency", "SEO", "React", "CodeAura", "Web Design"],
 
-    // 👇👇👇 1. أضف هذا الجزء الخاص بالأيقونة 👇👇👇
-    icons: {
-      icon: "/og-image12.png", // تأكد أن لديك ملف بهذا الاسم في مجلد public
-      // أو يمكنك استخدام صورة png صغيرة
-      // icon: "/logo.png", 
-      apple: "/og-image12.png", // اختياري (للأيفون)
+    // 3. التحكم في الروبوتات (لضمان الأرشفة)
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-    // 👆👆👆 نهاية الإضافة 👆👆👆
+
+    // 4. المؤلف
+    authors: [{ name: "CodeAura Team" }],
+
+    // ملاحظة: إذا وضعت ملف icon.png داخل مجلد app مباشرة، Next.js سيكتشفه تلقائياً
+    // ولن تحتاج لهذا الكود بالأسفل. لكن سأتركه لك كاحتياط.
+    /*
+    icons: {
+      icon: "/icon.png",
+      apple: "/icon.png",
+    },
+    */
 
     alternates: {
       canonical: `${baseUrl}/${lang}`,
@@ -48,10 +85,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       type: "website",
       images: [
         {
-          url: "/og-image12.png",
+          url: "/og-image12.png", // تأكد أن أبعاد هذه الصورة 1200x630
           width: 1200,
           height: 630,
-          alt: "CodeAura Web Solutions",
+          alt: isArabic ? "خدمات كود أورا البرمجية" : "CodeAura Web Services",
         },
       ],
     },
@@ -73,12 +110,24 @@ export default async function LangLayout({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
+  const isArabic = lang === "ar";
 
   return (
-    <html lang={lang} dir={lang === "ar" ? "rtl" : "ltr"}>
-      <body>
+    <html lang={lang} dir={isArabic ? "rtl" : "ltr"}>
+      <body
+        // 5. تطبيق الخطوط حسب اللغة بشكل ديناميكي
+        className={`
+          ${isArabic ? cairo.className : inter.className} 
+          antialiased bg-[#050816] text-white selection:bg-purple-500 selection:text-white
+        `}
+      >
         <Header locale={lang} />
-        {children}
+        
+        {/* main wrapper لضمان أن الفوتر دائماً في الأسفل */}
+        <main className="min-h-screen flex flex-col">
+           {children}
+        </main>
+        
         <Footer locale={lang} />
       </body>
     </html>
