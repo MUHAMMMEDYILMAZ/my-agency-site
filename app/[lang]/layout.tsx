@@ -2,28 +2,37 @@ import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Cairo, Inter } from "next/font/google";
+import { Metadata, Viewport } from "next";
 
-// 1. إعداد الخطوط
+// 1. إعداد الخطوط (تم إضافة الأوزان + اللاتينية للعربي)
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  weight: ["400", "500", "600", "700"], // ✅ تحديد الأوزان يقلل الحجم
 });
 
 const cairo = Cairo({
-  subsets: ["arabic"],
+  // 👇 ضروري جداً: إضافة latin لضمان ظهور الأرقام والمصطلحات الإنجليزية بنفس روح الخط
+  subsets: ["arabic", "latin"], 
   variable: "--font-cairo",
   display: "swap",
+  weight: ["400", "500", "600", "700"], // ✅ تحديد الأوزان
 });
 
-// تعريف نوع الـ Props لضمان التايب سكريبت
 type LayoutProps = {
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 };
 
-// 2. دالة الميتا داتا (SEO)
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#050816", 
+};
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const isArabic = lang === "ar";
 
@@ -85,7 +94,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       description,
       images: ["/og-image12.png"],
     },
-    
     icons: {
       icon: "/icon.png",
       apple: "/icon.png",
@@ -93,30 +101,24 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-// 3. مكون الـ Layout الرئيسي
 export default async function LangLayout({ children, params }: LayoutProps) {
-  // فك الوعد (Promise) للحصول على اللغة (متطلب Next.js 15)
   const { lang } = await params;
   const isArabic = lang === "ar";
-  
-  // تحويل نوع اللغة لضمان قبولها في مكونات الهيدر والفوتر
   const validLocale = lang as "ar" | "en";
 
   return (
-    <html lang={lang} dir={isArabic ? "rtl" : "ltr"}>
+    // 👇 suppressHydrationWarning يمنع أخطاء مزعجة بسبب إضافات المتصفح
+    <html lang={lang} dir={isArabic ? "rtl" : "ltr"} suppressHydrationWarning>
       <body
         className={`
           ${isArabic ? cairo.className : inter.className} 
-          ${isArabic ? cairo.variable : inter.variable} 
+          ${cairo.variable} ${inter.variable} 
           antialiased bg-[#050816] text-white selection:bg-purple-500 selection:text-white
           flex flex-col min-h-screen
         `}
       >
-        {/* تم إضافة flex flex-col min-h-screen للـ body لإصلاح مشكلة الفوتر */}
-        
         <Header locale={validLocale} />
         
-        {/* الـ main يأخذ المساحة المتبقية ليدفع الفوتر للأسفل */}
         <main className="flex-grow w-full">
             {children}
         </main>

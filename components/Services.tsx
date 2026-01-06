@@ -46,15 +46,18 @@ function ServiceCard({ service, index }: { service: ServiceItem; index: number }
       <div className="relative z-10 flex flex-col h-full">
         {/* Image Container */}
         <div className="w-full h-48 mb-6 rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden p-4 group-hover:bg-white/10 transition-colors">
-          <Image
-            src={service.img}
-            alt={service.title}
-            width={400}
-            height={300}
-            // 👇 التعديل 1: إضافة sizes لتحميل الحجم المناسب لكل شاشة
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-500"
-          />
+         <Image
+  src={service.img}
+  alt={service.title}
+  width={400}
+  height={300}
+  // 👇 التعديل هنا:
+  // 1. للموبايل: 100% من العرض.
+  // 2. للتابلت: 50% من العرض.
+  // 3. للديسك توب: 350px فقط (لأن الصورة داخل كرت ولن تكبر أكثر من ذلك مهما كبرت الشاشة)
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 350px"
+  className="w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-500"
+/>
         </div>
 
         {/* Text Content */}
@@ -180,13 +183,12 @@ export default function Services({ locale }: { locale: string }) {
           alt="Stars Background"
           fill // يملأ كامل القسم
           priority // ⚡️ يحمل الصورة فوراً (يحل مشكلة الـ 8 ثواني)
-          quality={60} // جودة 60 كافية جداً للخلفيات
-          className="object-cover opacity-60" // تحكم بالشفافية هنا
+          quality={75} // جودة 60 كافية جداً للخلفيات
+          className="object-cover opacity-80" // تحكم بالشفافية هنا
           sizes="100vw"
         />
         {/* طبقة تظليل فوق الصورة لزيادة وضوح النص */}
-        <div className="absolute inset-0 bg-[#050816cc] backdrop-blur-[1px]" />
-      </div>
+<div className="absolute inset-0 bg-[#050816]/50 backdrop-blur-[1px]" />      </div>
 
       {/* Title */}
       <div className="text-center mb-16 relative z-10 px-4">
