@@ -6,6 +6,8 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+// 👇 تم إزالة استيراد Cookies لأنه لم يعد مطلوباً هنا
+import { type Locale } from "@/i18n-config";
 
 export default function Header({ locale }: { locale: string }) {
   const [open, setOpen] = useState(false);
@@ -13,16 +15,17 @@ export default function Header({ locale }: { locale: string }) {
   const pathname = usePathname();
   const isArabic = locale === "ar";
 
-  const languages = [
+  const languages: { code: Locale; label: string }[] = [
     { code: "en", label: "EN" },
     { code: "ar", label: "AR" },
   ];
 
-  const switchLang = (newLang: string) => {
-    if (!pathname) return "/";
-    const parts = pathname.split("/");
-    parts[1] = newLang;
-    return parts.join("/");
+  // 👇 دالة جديدة تولد رابط الـ API الخاص بتغيير اللغة
+  const getSwitchLink = (targetLang: string) => {
+    // نرسل اللغة المطلوبة + المسار الحالي
+    // نستخدم encodeURIComponent لضمان عدم كسر الرابط إذا كان يحتوي على رموز خاصة
+    const currentPath = pathname || "/";
+    return `/api/switch-lang?locale=${targetLang}&path=${encodeURIComponent(currentPath)}`;
   };
 
   const t = isArabic
@@ -81,7 +84,6 @@ export default function Header({ locale }: { locale: string }) {
               height={0}
               sizes="100vw"
               className="w-auto h-[50px] object-contain cursor-pointer hover:opacity-90 transition-opacity"
-              /* 👇 تم إضافة priority هنا لحل مشكلة LCP */
               priority
             />
           </Link>
@@ -125,11 +127,12 @@ export default function Header({ locale }: { locale: string }) {
         <div className="hidden md:flex items-center gap-4 z-10">
           <div className="flex items-center gap-2 bg-white/5 rounded-full p-1 border border-white/10">
             {languages.map((lang) => (
-              <Link
+              // 👇 نستخدم <a> بدلاً من Link لتغيير اللغة لضمان تحديث كامل للصفحة
+              <a
                 key={lang.code}
-                href={switchLang(lang.code)}
+                href={getSwitchLink(lang.code)}
                 className={`
-                  px-3 py-1 rounded-full text-xs font-bold transition-all duration-300
+                  px-3 py-1 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer
                   ${
                     locale === lang.code
                       ? "bg-white text-black shadow-sm"
@@ -138,7 +141,7 @@ export default function Header({ locale }: { locale: string }) {
                 `}
               >
                 {lang.label}
-              </Link>
+              </a>
             ))}
           </div>
 
@@ -165,12 +168,13 @@ export default function Header({ locale }: { locale: string }) {
 
         {/* 4. MOBILE TOGGLE */}
         <div className="md:hidden flex items-center gap-3 z-10">
-          <Link
-            href={switchLang(isArabic ? "en" : "ar")}
+          {/* زر تغيير اللغة للموبايل */}
+          <a
+            href={getSwitchLink(isArabic ? "en" : "ar")}
             className="text-xs font-bold text-white border border-white/20 px-2 py-1 rounded-md hover:bg-white/10 transition"
           >
             {isArabic ? "EN" : "AR"}
-          </Link>
+          </a>
 
           <button
             className="text-white p-1 hover:bg-white/10 rounded-md transition"

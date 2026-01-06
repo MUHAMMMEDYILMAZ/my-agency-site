@@ -1,23 +1,28 @@
 import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-// 1. استيراد الخطوط من جوجل لضمان جمالية الموقع وسرعته
 import { Cairo, Inter } from "next/font/google";
 
-// إعداد خط Inter للغة الإنجليزية
+// 1. إعداد الخطوط
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
 });
 
-// إعداد خط Cairo للغة العربية (احترافي جداً)
 const cairo = Cairo({
   subsets: ["arabic"],
   variable: "--font-cairo",
   display: "swap",
 });
 
+// تعريف نوع الـ Props لضمان التايب سكريبت
+type LayoutProps = {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+};
+
+// 2. دالة الميتا داتا (SEO)
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const isArabic = lang === "ar";
@@ -30,20 +35,15 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة. اطلب موقعك الآن."
     : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance. Get your website today.";
 
-  // يفضل وضع الرابط في متغير بيئة، لكن لا بأس به هكذا حالياً
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://my-agency-site-red.vercel.app";
 
   return {
     title,
     description,
     metadataBase: new URL(baseUrl),
-    
-    // 2. الكلمات المفتاحية (مهمة جداً لجوجل)
-    keywords: isArabic 
+    keywords: isArabic
       ? ["تصميم مواقع", "برمجة متاجر", "تطوير ويب", "Next.js", "تسويق رقمي", "CodeAura", "سيو"]
       : ["Web Development", "E-commerce", "Next.js Agency", "SEO", "React", "CodeAura", "Web Design"],
-
-    // 3. التحكم في الروبوتات (لضمان الأرشفة)
     robots: {
       index: true,
       follow: true,
@@ -55,19 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         "max-snippet": -1,
       },
     },
-
-    // 4. المؤلف
     authors: [{ name: "CodeAura Team" }],
-
-    // ملاحظة: إذا وضعت ملف icon.png داخل مجلد app مباشرة، Next.js سيكتشفه تلقائياً
-    // ولن تحتاج لهذا الكود بالأسفل. لكن سأتركه لك كاحتياط.
-    /*
-    icons: {
-      icon: "/icon.png",
-      apple: "/icon.png",
-    },
-    */
-
     alternates: {
       canonical: `${baseUrl}/${lang}`,
       languages: {
@@ -75,7 +63,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         ar: `${baseUrl}/ar`,
       },
     },
-
     openGraph: {
       title,
       description,
@@ -85,50 +72,56 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       type: "website",
       images: [
         {
-          url: "/og-image12.png", // تأكد أن أبعاد هذه الصورة 1200x630
+          url: "/og-image12.png",
           width: 1200,
           height: 630,
           alt: isArabic ? "خدمات كود أورا البرمجية" : "CodeAura Web Services",
         },
       ],
     },
-
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: ["/og-image12.png"],
     },
+    
+    icons: {
+      icon: "/icon.png",
+      apple: "/icon.png",
+    },
   };
 }
 
-export default async function LangLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ lang: string }>;
-}) {
+// 3. مكون الـ Layout الرئيسي
+export default async function LangLayout({ children, params }: LayoutProps) {
+  // فك الوعد (Promise) للحصول على اللغة (متطلب Next.js 15)
   const { lang } = await params;
   const isArabic = lang === "ar";
+  
+  // تحويل نوع اللغة لضمان قبولها في مكونات الهيدر والفوتر
+  const validLocale = lang as "ar" | "en";
 
   return (
     <html lang={lang} dir={isArabic ? "rtl" : "ltr"}>
       <body
-        // 5. تطبيق الخطوط حسب اللغة بشكل ديناميكي
         className={`
           ${isArabic ? cairo.className : inter.className} 
+          ${isArabic ? cairo.variable : inter.variable} 
           antialiased bg-[#050816] text-white selection:bg-purple-500 selection:text-white
+          flex flex-col min-h-screen
         `}
       >
-        <Header locale={lang} />
+        {/* تم إضافة flex flex-col min-h-screen للـ body لإصلاح مشكلة الفوتر */}
         
-        {/* main wrapper لضمان أن الفوتر دائماً في الأسفل */}
-        <main className="min-h-screen flex flex-col">
-           {children}
+        <Header locale={validLocale} />
+        
+        {/* الـ main يأخذ المساحة المتبقية ليدفع الفوتر للأسفل */}
+        <main className="flex-grow w-full">
+            {children}
         </main>
         
-        <Footer locale={lang} />
+        <Footer locale={validLocale} />
       </body>
     </html>
   );
