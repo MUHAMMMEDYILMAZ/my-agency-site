@@ -6,7 +6,6 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-// 👇 تم إزالة استيراد Cookies لأنه لم يعد مطلوباً هنا
 import { type Locale } from "@/i18n-config";
 
 export default function Header({ locale }: { locale: string }) {
@@ -20,12 +19,20 @@ export default function Header({ locale }: { locale: string }) {
     { code: "ar", label: "AR" },
   ];
 
-  // 👇 دالة جديدة تولد رابط الـ API الخاص بتغيير اللغة
+  // دالة لتوليد رابط الـ API
   const getSwitchLink = (targetLang: string) => {
-    // نرسل اللغة المطلوبة + المسار الحالي
-    // نستخدم encodeURIComponent لضمان عدم كسر الرابط إذا كان يحتوي على رموز خاصة
     const currentPath = pathname || "/";
     return `/api/switch-lang?locale=${targetLang}&path=${encodeURIComponent(currentPath)}`;
+  };
+
+  // 🔥 الدالة الجديدة: معالجة النقر لاستخدام replace
+  const handleLanguageClick = (e: React.MouseEvent<HTMLAnchorElement>, targetLang: string) => {
+    e.preventDefault(); // نمنع الانتقال العادي
+    const url = getSwitchLink(targetLang);
+    
+    // نستخدم replace لاستبدال الصفحة الحالية في التاريخ
+    // هذا يمنع مشكلة "التعليق" عند الضغط على زر الرجوع
+    window.location.replace(url);
   };
 
   const t = isArabic
@@ -127,10 +134,11 @@ export default function Header({ locale }: { locale: string }) {
         <div className="hidden md:flex items-center gap-4 z-10">
           <div className="flex items-center gap-2 bg-white/5 rounded-full p-1 border border-white/10">
             {languages.map((lang) => (
-              // 👇 نستخدم <a> بدلاً من Link لتغيير اللغة لضمان تحديث كامل للصفحة
               <a
                 key={lang.code}
                 href={getSwitchLink(lang.code)}
+                // 👇 هنا تم ربط الدالة الجديدة
+                onClick={(e) => handleLanguageClick(e, lang.code)}
                 className={`
                   px-3 py-1 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer
                   ${
@@ -171,6 +179,8 @@ export default function Header({ locale }: { locale: string }) {
           {/* زر تغيير اللغة للموبايل */}
           <a
             href={getSwitchLink(isArabic ? "en" : "ar")}
+            // 👇 وهنا أيضاً للموبايل
+            onClick={(e) => handleLanguageClick(e, isArabic ? "en" : "ar")}
             className="text-xs font-bold text-white border border-white/20 px-2 py-1 rounded-md hover:bg-white/10 transition"
           >
             {isArabic ? "EN" : "AR"}
