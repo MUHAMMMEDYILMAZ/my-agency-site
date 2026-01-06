@@ -32,7 +32,8 @@ function PageHeader({
   return (
     <div
       ref={ref}
-      className={`text-center mb-20 px-6 transition-all duration-700 ${
+      // ✅ تعديل 1: تقليل المارجن في الجوال (mb-10) وزيادته في الشاشات الكبيرة (md:mb-20)
+      className={`text-center mb-10 md:mb-20 px-6 transition-all duration-700 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
     >
@@ -49,6 +50,41 @@ function PageHeader({
   );
 }
 
+// ✅ مكون جديد للكارت لفصل الأنيميشن
+function ServiceCard({ item, index }: { item: any; index: number }) {
+  // threshold: 0.1 تعني: ابدأ الظهور فوراً بمجرد ظهور 10% من الكارت
+  const { ref, visible } = useReveal();
+  
+  // تأخير بسيط جداً (Stagger) يعطي جمالية ولا يسبب بطء
+  const delay = index * 100; 
+
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${visible ? delay : 0}ms` }}
+      className={`
+        text-center bg-white/10 border border-white/10 backdrop-blur-xl
+        p-6 md:p-8 rounded-3xl shadow-[0_0_25px_rgba(0,0,0,0.35)]
+        transition-all duration-500 ease-out group
+        hover:bg-white/20 hover:border-purple-400/40
+        hover:shadow-[0_0_35px_rgba(150,100,255,0.35)]
+        hover:scale-[1.05]
+        /* الأنيميشن هنا مستقل للكارت فقط */
+        ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+      `}
+    >
+      <div className="flex justify-center mb-4 text-purple-300 group-hover:text-purple-200 transition-colors">
+        <div className="p-3 bg-white/5 rounded-full">{item.icon}</div>
+      </div>
+
+      <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+      <p className="text-white/60 text-sm group-hover:text-white/80 transition-colors">
+        {item.desc}
+      </p>
+    </div>
+  );
+}
+
 function ServicesSection({
   title,
   items,
@@ -56,41 +92,27 @@ function ServicesSection({
   title: string;
   items: { icon: React.ReactNode; title: string; desc: string }[];
 }) {
-  const { ref, visible } = useReveal();
+  // أنيميشن خاص للعنوان فقط
+  const { ref: titleRef, visible: titleVisible } = useReveal();
 
   return (
-    <div
-      ref={ref}
-      className={`max-w-6xl mx-auto px-6 mb-24 transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-    >
-      <h2 className="text-xl font-semibold mb-10 text-center text-purple-200">
+    // ✅ تعديل 2: تقليل المسافة السفلية للجوال (mb-16)
+    <div className="max-w-6xl mx-auto px-6 mb-16 md:mb-24">
+      
+      {/* العنوان يظهر فور الوصول إليه */}
+      <h2 
+        ref={titleRef}
+        className={`text-xl font-semibold mb-8 md:mb-10 text-center text-purple-200 transition-all duration-500 ${
+            titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
         {title}
       </h2>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* الكروت مفصولة وتظهر فوراً عند السكرول */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
         {items.map((s, i) => (
-          <div
-            key={i}
-            className="
-              text-center bg-white/10 border border-white/10 backdrop-blur-xl
-              p-8 rounded-3xl shadow-[0_0_25px_rgba(0,0,0,0.35)]
-              transition-all duration-300
-              hover:bg-white/20 hover:border-purple-400/40
-              hover:shadow-[0_0_35px_rgba(150,100,255,0.35)]
-              hover:scale-[1.05] group
-            "
-          >
-            <div className="flex justify-center mb-4 text-purple-300 group-hover:text-purple-200 transition-colors">
-              <div className="p-3 bg-white/5 rounded-full">{s.icon}</div>
-            </div>
-
-            <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
-            <p className="text-white/60 text-sm group-hover:text-white/80 transition-colors">
-              {s.desc}
-            </p>
-          </div>
+          <ServiceCard key={i} item={s} index={i} />
         ))}
       </div>
     </div>
@@ -109,7 +131,8 @@ function FeaturesSection({
   return (
     <div
       ref={ref}
-      className={`max-w-4xl mx-auto text-center px-6 mb-24 transition-all duration-700 ${
+      // ✅ تعديل 3: تقليل المارجن للجوال
+      className={`max-w-4xl mx-auto text-center px-6 mb-16 md:mb-24 transition-all duration-700 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
     >
@@ -256,15 +279,14 @@ function ServicesContentArea({ lang }: { lang: string }) {
   return (
     <section
       dir={isArabic ? "rtl" : "ltr"}
-      // 👇 التعديل 1: إضافة overflow-x-hidden و w-full لحماية الجوال من الفراغ الجانبي
+      // ✅ تعديل 4: تقليل البادينغ العلوي للجوال (pt-24)
       className="
         relative w-full max-w-full overflow-x-hidden
-        pt-32 pb-12 min-h-screen text-white
+        pt-32 md:pt-32 pb-12 min-h-screen text-white
         bg-[#02030d] bg-gradient-to-br from-[#050316] via-[#09041f] to-[#02030d]
         before:content-[''] before:absolute before:inset-0 before:bg-black/40 before:-z-10
       "
     >
-      {/* 👇 التعديل 2: جعل العنصر المضيء متجاوباً (w-full max-w-[480px]) */}
       <div 
         className="
           absolute -top-40 left-0 -z-10
