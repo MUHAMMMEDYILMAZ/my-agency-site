@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Cairo, Inter } from "next/font/google";
 import { Metadata, Viewport } from "next";
+import AIChatBot from "@/components/AIChatBot";
+import FloatingContacts from "@/components/FloatingContacts";
 
 // 1. إعداد الخطوط (تم إضافة الأوزان + اللاتينية للعربي)
 const inter = Inter({
@@ -121,6 +123,8 @@ export default async function LangLayout({ children, params }: LayoutProps) {
         
         <main className="flex-grow w-full">
             {children}
+            <AIChatBot /> {/* 👈 حطيناه هنا ليكون فوق كل شي */}
+            <FloatingContacts />
         </main>
         
         <Footer locale={validLocale} />
