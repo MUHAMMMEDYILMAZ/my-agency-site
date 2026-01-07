@@ -12,8 +12,21 @@ export default function AIChatBot() {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
-  // 👇 1. ضع رقم هاتفك هنا (مع رمز الدولة بدون +)
-  const myPhoneNumber = "+966535846431"; 
+  // 👇 1. رقم هاتفك
+  const myPhoneNumber = "966535846431"; 
+
+  // 🆕 إضافة: التحكم في إخفاء العناصر الأخرى عند فتح البوت
+  useEffect(() => {
+    if (isOpen) {
+      // عند الفتح: أضف كلاس للجسم لإخفاء الأزرار الأخرى
+      document.body.classList.add("bot-is-open");
+    } else {
+      // عند الإغلاق: احذف الكلاس لتعود الأزرار
+      document.body.classList.remove("bot-is-open");
+    }
+    // تنظيف عند الخروج من الصفحة
+    return () => document.body.classList.remove("bot-is-open");
+  }, [isOpen]);
 
   // 1️⃣ إغلاق النافذة عند النقر في الخارج
   useEffect(() => {
@@ -38,7 +51,6 @@ export default function AIChatBot() {
   
   const contentDir = isArabic ? "rtl" : "ltr";
 
-  // 👇 2. تم تحديث الرسالة الترحيبية لتشمل النص الطويل + زر الواتساب
   const t = {
     welcome: isArabic 
       ? `أهلاً بك! يسعدنا تواصلك معنا. نحن CodeAura، وكالة تطوير ويب متخصصة في بناء محركات إيرادات ومواقع ويب عالية الأداء مُحسّنة لمحركات البحث.
@@ -61,7 +73,6 @@ If you need help choosing the right plan or have any questions, feel free to con
 
   const [messages, setMessages] = useState<{ role: "user" | "bot"; text: string }[]>([]);
 
-  // تحديث الرسالة عند تغيير اللغة
   useEffect(() => {
     setMessages([{ role: "bot", text: t.welcome }]);
   }, [isArabic]);
@@ -93,7 +104,6 @@ If you need help choosing the right plan or have any questions, feel free to con
     }
   };
 
-  // 🔥 دالة الرسم: تفصل النص عن الرابط وترسم الزر
   const renderMessageContent = (text: string) => {
     if (text.includes("||WA_LINK||")) {
       const parts = text.split("||WA_LINK||");
@@ -102,10 +112,7 @@ If you need help choosing the right plan or have any questions, feel free to con
 
       return (
         <div className="flex flex-col gap-3">
-          {/* النص العادي */}
           <span className="whitespace-pre-wrap leading-relaxed">{messageContent}</span>
-          
-          {/* زر الواتساب الأخضر */}
           {whatsappLink && (
             <a 
               href={whatsappLink} 
@@ -120,7 +127,6 @@ If you need help choosing the right plan or have any questions, feel free to con
         </div>
       );
     }
-
     return <span className="whitespace-pre-wrap">{text}</span>;
   };
 
@@ -131,7 +137,6 @@ If you need help choosing the right plan or have any questions, feel free to con
       dir="ltr" 
       className={`fixed bottom-6 ${alignmentClass} z-50 flex flex-col gap-4 font-sans transition-all duration-500`}
     >
-      
       {/* --- نافذة المحادثة --- */}
       {isOpen && (
         <div 
@@ -177,10 +182,7 @@ If you need help choosing the right plan or have any questions, feel free to con
                   {msg.role === "user" ? <User size={14} /> : <Bot size={16} />}
                 </div>
                 <div className={`p-3.5 rounded-2xl text-sm leading-relaxed max-w-[85%] shadow-sm ${msg.role === "user" ? "bg-white text-black rounded-tr-none" : "bg-[#1a1a1a] border border-white/5 text-gray-200 rounded-tl-none"}`}>
-                  
-                  {/* استخدام دالة العرض الذكية */}
                   {renderMessageContent(msg.text)}
-
                 </div>
               </div>
             ))}

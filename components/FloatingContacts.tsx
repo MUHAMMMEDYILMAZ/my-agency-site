@@ -3,37 +3,30 @@
 import React from "react";
 import { Phone, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { usePathname } from "next/navigation"; // 👈 استيراد لمعرفة اللغة الحالية
+import { usePathname } from "next/navigation";
 
 export default function FloatingContacts() {
-  // 👇 ضع أرقامك هنا
   const phoneNumber = "+966535846431"; 
   const whatsappNumber = "966535846431"; 
 
-  // 1️⃣ معرفة اللغة الحالية من الرابط
   const pathname = usePathname();
   const isArabic = pathname?.startsWith("/ar");
 
-  // 2️⃣ تحديد الاتجاه بناءً على اللغة
-  // في العربية (RTL) نفضل عادة أن تكون الأدوات على اليسار (عكس اتجاه القراءة) لعدم الإزعاج
-  // في الإنجليزية (LTR) تكون على اليمين
   const positionClass = isArabic ? "left-6" : "right-6";
-
-  // إعدادات الحركة (كما تم إصلاحها سابقاً)
   const springConfig = { type: "spring", stiffness: 260, damping: 20 } as const;
 
   return (
-    <div className={`fixed bottom-6 ${positionClass} z-50 flex flex-col gap-5 transition-all duration-500`}>
+    // 👇 التعديل هنا: أضفنا الكلاس "floating-buttons"
+    <div className={`floating-buttons fixed bottom-6 ${positionClass} z-50 flex flex-col gap-5 transition-all duration-500`}>
       
       {/* --- زر الواتساب --- */}
       <motion.a
         href={`https://wa.me/${whatsappNumber}`}
         target="_blank"
         rel="noopener noreferrer"
-        // الحركة عند التحميل: يبدأ صغيراً ومخفياً ثم يظهر
         initial={{ scale: 0, opacity: 0, y: 50 }} 
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ delay: 1, ...springConfig }} // تأخير 1 ثانية ليعطي مجال للموقع يتحمل
+        transition={{ delay: 1, ...springConfig }}
         whileHover={{ scale: 1.1, rotate: 10 }}
         whileTap={{ scale: 0.9 }}
         className="
@@ -56,7 +49,7 @@ export default function FloatingContacts() {
         href={`tel:${phoneNumber}`}
         initial={{ scale: 0, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        transition={{ delay: 1.1, ...springConfig }} // يظهر بعد الواتساب بجزء من الثانية
+        transition={{ delay: 1.1, ...springConfig }}
         whileHover={{ scale: 1.1, rotate: -10 }}
         whileTap={{ scale: 0.9 }}
         className="

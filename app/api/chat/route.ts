@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { message } = await req.json();
 
     // 👇 هام جداً: ضع رقمك هنا (بدون علامة +)
-    const myPhoneNumber = "+966535846431"; 
+    const myPhoneNumber = "966535846431"; 
 
     const systemInstruction = `
       You are the AI Sales Assistant for "CodeAura" (A professional Web Development Agency).

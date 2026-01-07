@@ -146,3 +146,12 @@
 .animate-contact-slide {
   animation: contactSlide 0.4s ease-out forwards;
 }
+
+@media (max-width: 768px) {
+  body.bot-is-open .floating-buttons {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(20px);
+  }
+}
