@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { X, Send, Bot, Loader2, User, BrainCircuit, Sparkles, MessageCircle } from "lucide-react";
+// ✅ تأكدنا من وجود Sparkles في الاستيراد
+import { X, Send, Bot, Loader2, User, Sparkles, MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function AIChatBot() {
@@ -12,23 +13,17 @@ export default function AIChatBot() {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
-  // 👇 1. رقم هاتفك
   const myPhoneNumber = "966535846431"; 
 
-  // 🆕 إضافة: التحكم في إخفاء العناصر الأخرى عند فتح البوت
   useEffect(() => {
     if (isOpen) {
-      // عند الفتح: أضف كلاس للجسم لإخفاء الأزرار الأخرى
       document.body.classList.add("bot-is-open");
     } else {
-      // عند الإغلاق: احذف الكلاس لتعود الأزرار
       document.body.classList.remove("bot-is-open");
     }
-    // تنظيف عند الخروج من الصفحة
     return () => document.body.classList.remove("bot-is-open");
   }, [isOpen]);
 
-  // 1️⃣ إغلاق النافذة عند النقر في الخارج
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (isOpen) {
@@ -154,8 +149,10 @@ If you need help choosing the right plan or have any questions, feel free to con
           <div className="p-4 bg-gradient-to-r from-[#1a1a2e] to-[#16213e] border-b border-white/10 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="relative p-2 bg-white/5 rounded-xl border border-white/10">
+                {/* أبقيت أيقونة البوت هنا لأنها مناسبة كصورة شخصية */}
                 <Bot size={20} className="text-purple-300" />
-                <Sparkles size={10} className="absolute -top-1 -right-1 text-yellow-300 animate-pulse" />
+                {/* أيقونة بريق صغيرة للتزيين */}
+                <Sparkles size={10} className="absolute -top-1 -right-1 text-yellow-300 animate-pulse" fill="currentColor" />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-white text-sm tracking-wide">{t.title}</span>
@@ -168,6 +165,7 @@ If you need help choosing the right plan or have any questions, feel free to con
             
             <button 
               onClick={() => setIsOpen(false)}
+              aria-label={isArabic ? "إغلاق" : "Close"}
               className="text-white/40 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition"
             >
               <X size={16} />
@@ -213,6 +211,7 @@ If you need help choosing the right plan or have any questions, feel free to con
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
+                aria-label={isArabic ? "إرسال الرسالة" : "Send message"}
                 className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white p-3 rounded-xl transition-all shadow-lg active:scale-95"
               >
                 {isArabic ? <Send size={18} className="rotate-180" /> : <Send size={18} />}
@@ -226,6 +225,11 @@ If you need help choosing the right plan or have any questions, feel free to con
       <button
         ref={toggleButtonRef}
         onClick={() => setIsOpen(!isOpen)}
+        aria-label={
+          isOpen 
+            ? (isArabic ? "إغلاق المحادثة" : "Close chat") 
+            : (isArabic ? "فتح المساعد الذكي" : "Open AI Assistant")
+        }
         className={`
           group relative flex items-center justify-center w-14 h-14 rounded-full 
           backdrop-blur-md border shadow-2xl z-50
@@ -239,7 +243,9 @@ If you need help choosing the right plan or have any questions, feel free to con
         {isOpen ? (
            <X className="text-white/80 w-6 h-6" />
         ) : (
-           <BrainCircuit className="text-white w-6 h-6 group-hover:animate-pulse" />
+           // ✅ تم التعديل هنا: استبدال BrainCircuit بـ Sparkles
+           // أضفنا fill="currentColor" لتصبح الأيقونة ممتلئة وليست فقط خطوط
+           <Sparkles className="text-white w-7 h-7 group-hover:animate-pulse" fill="currentColor" />
         )}
       </button>
     </div>
