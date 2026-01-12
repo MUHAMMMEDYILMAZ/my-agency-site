@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 👇 ضع رابط موقعك الحقيقي هنا (أو استخدم متغير البيئة كما في الكود)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://my-agency-site-red.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.codeauraweb.com';
 
   // 1. قائمة اللغات المدعومة في موقعك
   const languages = ['ar', 'en'];

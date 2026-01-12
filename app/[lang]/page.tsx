@@ -22,8 +22,8 @@ export default async function Home({
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "CodeAura",
-    "url": "https://my-agency-site-red.vercel.app",
-    "logo": "https://my-agency-site-red.vercel.app/og-image12.png",
+    "url": "https://www.codeauraweb.com",
+    "logo": "https://www.codeauraweb.com/og-image12.png",
     "description": isArabic
       ? "نقدم حلول برمجية متكاملة، تصميم مواقع، ومتاجر إلكترونية."
       : "Professional web development, SEO, and e-commerce solutions.",

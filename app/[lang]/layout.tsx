@@ -5,6 +5,7 @@ import { Cairo, Inter } from "next/font/google";
 import { Metadata, Viewport } from "next";
 import AIChatBot from "@/components/AIChatBot";
 import FloatingContacts from "@/components/FloatingContacts";
+import { Analytics } from "@vercel/analytics/next"
 
 // 1. إعداد الخطوط (تم إضافة الأوزان + اللاتينية للعربي)
 const inter = Inter({
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة. اطلب موقعك الآن."
     : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance. Get your website today.";
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://my-agency-site-red.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.codeauraweb.com";
 
   return {
     title,
@@ -119,12 +120,14 @@ export default async function LangLayout({ children, params }: LayoutProps) {
           flex flex-col min-h-screen
         `}
       >
+        
         <Header locale={validLocale} />
         
         <main className="flex-grow w-full">
             {children}
             <AIChatBot /> {/* 👈 حطيناه هنا ليكون فوق كل شي */}
             <FloatingContacts />
+            <Analytics />
         </main>
         
         <Footer locale={validLocale} />

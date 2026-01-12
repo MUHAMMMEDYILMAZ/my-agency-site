@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  // 👇 استبدل هذا الرابط برابط موقعك الحقيقي
-  const baseUrl = 'https://my-agency-site-red.vercel.app';
+  const baseUrl = 'https://www.codeauraweb.com';
 
   return {
     rules: {
