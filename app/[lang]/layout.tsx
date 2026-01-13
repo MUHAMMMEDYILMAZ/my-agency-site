@@ -5,22 +5,21 @@ import { Cairo, Inter } from "next/font/google";
 import { Metadata, Viewport } from "next";
 import AIChatBot from "@/components/AIChatBot";
 import FloatingContacts from "@/components/FloatingContacts";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 
-// 1. إعداد الخطوط (تم إضافة الأوزان + اللاتينية للعربي)
+// 1. إعداد الخطوط
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  weight: ["400", "500", "600", "700"], // ✅ تحديد الأوزان يقلل الحجم
+  weight: ["400", "500", "600", "700"],
 });
 
 const cairo = Cairo({
-  // 👇 ضروري جداً: إضافة latin لضمان ظهور الأرقام والمصطلحات الإنجليزية بنفس روح الخط
-  subsets: ["arabic", "latin"], 
+  subsets: ["arabic", "latin"],
   variable: "--font-cairo",
   display: "swap",
-  weight: ["400", "500", "600", "700"], // ✅ تحديد الأوزان
+  weight: ["400", "500", "600", "700"],
 });
 
 type LayoutProps = {
@@ -32,20 +31,22 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#050816", 
+  themeColor: "#050816",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
   const isArabic = lang === "ar";
 
+  // تحسين العنوان ليكون جذاباً ويحتوي الكلمات المهمة
   const title = isArabic
-    ? "CodeAura — برمجة مواقع احترافية | مواقع، متاجر، أنظمة"
-    : "CodeAura — Professional Web Development | Websites, Stores, Systems";
+    ? "CodeAura | تصميم مواقع ومتاجر إلكترونية في السعودية | خدمات SEO وبرمجة خاصة"
+    : "CodeAura | Professional Web Design & E-commerce Development Agency";
 
+  // الوصف يحتوي على "خدمات"، "سعودية"، "متاجر"
   const description = isArabic
-    ? "نقوم ببناء مواقع سريعة، آمنة، ومتقدمة باستخدام Next.js و Node.js مع أداء عالي وتجربة استخدام ممتازة. اطلب موقعك الآن."
-    : "We build fast, secure, modern websites using Next.js, Node.js, with strong SEO and high performance. Get your website today.";
+    ? "وكالة CodeAura لخدمات البرمجة المتكاملة. نقدم خدمات تصميم المواقع، إنشاء المتاجر الإلكترونية، وتحسين محركات البحث (SEO) بأحدث التقنيات في السعودية والخليج."
+    : "CodeAura is a top-tier web development agency specializing in Next.js websites, custom e-commerce stores, and SEO services to grow your business.";
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.codeauraweb.com";
 
@@ -53,9 +54,35 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title,
     description,
     metadataBase: new URL(baseUrl),
+    // 👇 هنا الكلمات المفتاحية الذهبية التي تم تضبطيها
     keywords: isArabic
-      ? ["تصميم مواقع", "برمجة متاجر", "تطوير ويب", "Next.js", "تسويق رقمي", "CodeAura", "سيو"]
-      : ["Web Development", "E-commerce", "Next.js Agency", "SEO", "React", "CodeAura", "Web Design"],
+      ? [
+          "تصميم مواقع الكترونية في السعودية",
+          "شركة برمجة متاجر الكترونية",
+          "انشاء موقع تعريفي للشركات",
+          "تحسين محركات البحث SEO",
+          "تصميم واجهة مستخدم UX/UI",
+          "برمجة خاصة Next.js",
+          "CodeAura",
+          "وكالة تسويق رقمي",
+          "تطوير ويب",
+          "متاجر سلة وزد"
+        ]
+      : [
+          "Web Development Saudi Arabia",
+          "E-commerce Solutions",
+          "Next.js Agency",
+          "SEO Services",
+          "Custom Web Design",
+          "CodeAura",
+          "UI/UX Design"
+        ],
+    
+    // 👇 خانة التحقق من جوجل (ستحتاج لإضافة الكود هنا لاحقاً)
+    verification: {
+            google: "8VY5s9FRpOSra0UkUC2LsdPsqXaw76uqwYwfZouil2c",    
+          },
+
     robots: {
       index: true,
       follow: true,
@@ -110,7 +137,6 @@ export default async function LangLayout({ children, params }: LayoutProps) {
   const validLocale = lang as "ar" | "en";
 
   return (
-    // 👇 suppressHydrationWarning يمنع أخطاء مزعجة بسبب إضافات المتصفح
     <html lang={lang} dir={isArabic ? "rtl" : "ltr"} suppressHydrationWarning>
       <body
         className={`
@@ -123,14 +149,18 @@ export default async function LangLayout({ children, params }: LayoutProps) {
         
         <Header locale={validLocale} />
         
+        {/* المحتوى الأساسي */}
         <main className="flex-grow w-full">
             {children}
-            <AIChatBot /> {/* 👈 حطيناه هنا ليكون فوق كل شي */}
-            <FloatingContacts />
-            <Analytics />
         </main>
         
         <Footer locale={validLocale} />
+
+        {/* 👇 العناصر العائمة والأدوات توضع هنا في النهاية لأداء أفضل */}
+        <AIChatBot />
+        <FloatingContacts />
+        <Analytics />
+        
       </body>
     </html>
   );

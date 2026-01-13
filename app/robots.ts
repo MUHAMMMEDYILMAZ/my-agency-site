@@ -11,7 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         '/api/',      // ❌ منع أرشفة روابط الـ API
         '/admin/',    // ❌ منع أرشفة لوحة التحكم (إذا وجدت)
         '/dashboard/',// ❌ منع أرشفة لوحة المستخدمين
-        '/_next/',    // ❌ منع ملفات النظام الداخلية
         '/private/',  // ❌ أي مجلد خاص
       ],
     },
