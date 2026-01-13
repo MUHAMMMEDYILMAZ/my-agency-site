@@ -64,9 +64,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "تصميم واجهة مستخدم UX/UI",
           "برمجة خاصة Next.js",
           "CodeAura",
+          "CodeAuraweb",
           "وكالة تسويق رقمي",
           "تطوير ويب",
-          "متاجر سلة وزد"
+          "متاجر سلة وزد",
+          "ويب",
+          "مواقع ويب "
+          
         ]
       : [
           "Web Development Saudi Arabia",
@@ -75,7 +79,16 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "SEO Services",
           "Custom Web Design",
           "CodeAura",
-          "UI/UX Design"
+          "UI/UX Design",
+          "CodeAura",
+          "CodeAuraweb",
+          "Digital Marketing Agency",
+          "Web Development",
+          "E-commerce Stores",
+          "web development",
+          "websites",
+          "web design"
+
         ],
     
     // 👇 خانة التحقق من جوجل (ستحتاج لإضافة الكود هنا لاحقاً)
