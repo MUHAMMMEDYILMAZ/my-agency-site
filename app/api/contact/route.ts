@@ -23,11 +23,11 @@ export async function POST(req: Request) {
     const now = new Date().toLocaleString();
 
     // 1️⃣ إيميل لك أنت (صاحب الموقع)
-    // سيصلك تنبيه بأن هناك شخص تواصل معك
     await resend.emails.send({
-      from: "CodeAura Website <onboarding@resend.dev>",
-      to: "codeaura11@gmail.com", // 👈 تم تعديل إيميلك هنا
-      replyTo: email, // عشان لما تضغط رد (Reply) يروح لإيميل العميل مباشرة
+      // 👇 التعديل الأول: استخدمنا info@codeauraweb.com
+      from: "CodeAura Website <info@codeauraweb.com>", 
+      to: "codeaura11@gmail.com", 
+      replyTo: email, 
       subject: `📩 رسالة جديدة من: ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
@@ -48,10 +48,10 @@ export async function POST(req: Request) {
     });
 
     // 2️⃣ إيميل تأكيد للعميل (المستخدم)
-    // يخبره أن رسالته وصلت ويعرض له المعلومات التي أرسلها
     await resend.emails.send({
-      from: "CodeAura Support <onboarding@resend.dev>",
-      to: email, // يرسل لإيميل العميل
+      // 👇 التعديل الثاني: استخدمنا نفس الإيميل الرسمي
+      from: "CodeAura Support <info@codeauraweb.com>",
+      to: email, 
       subject: "تم استلام رسالتك بنجاح ✔",
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
