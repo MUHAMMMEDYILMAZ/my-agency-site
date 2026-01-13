@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
   // الوصف يحتوي على "خدمات"، "سعودية"، "متاجر"
   const description = isArabic
-    ? "وكالة CodeAura لخدمات البرمجة المتكاملة. نقدم خدمات تصميم المواقع، إنشاء المتاجر الإلكترونية، وتحسين محركات البحث (SEO) بأحدث التقنيات في السعودية والخليج."
+    ? "CodeAura لخدمات البرمجة المتكاملة. نقدم خدمات تصميم المواقع، إنشاء المتاجر الإلكترونية، وتحسين محركات البحث (SEO) بأحدث التقنيات في السعودية والخليج."
     : "CodeAura is a top-tier web development agency specializing in Next.js websites, custom e-commerce stores, and SEO services to grow your business.";
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.codeauraweb.com";
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "متاجر سلة وزد",
           "ويب",
           "مواقع ويب "
-          
+
         ]
       : [
           "Web Development Saudi Arabia",
