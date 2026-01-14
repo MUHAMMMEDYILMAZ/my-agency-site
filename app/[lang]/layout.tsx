@@ -69,7 +69,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "تطوير ويب",
           "متاجر سلة وزد",
           "ويب",
-          "مواقع ويب "
+          "مواقع ويب ",
+          "تصميم مواقع في السعودية",
+          "شركات برمجة في تركيا",
+          "تصميم ويب الرياض",
+          "تطوير تطبيقات اسطنبول",
+          "وكالة تسويق رقمي",
+          "خدمات برمجية للشركات"
         ]
       : [
           "Web Development Saudi Arabia",
@@ -86,7 +92,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "E-commerce Stores",
           "web development",
           "websites",
-          "web design"
+          "web design",
+          "Web Design Saudi Arabia",
+          "Web Development Turkey",
+          "Global Tech Agency"
         ],
     
     // 👇 خانة التحقق من جوجل
