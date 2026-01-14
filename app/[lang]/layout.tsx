@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title,
     description,
     metadataBase: new URL(baseUrl),
-    // 👇 هنا الكلمات المفتاحية الذهبية التي تم تضبطيها
+    // 👇 الكلمات المفتاحية
     keywords: isArabic
       ? [
           "تصميم مواقع الكترونية في السعودية",
@@ -70,7 +70,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "متاجر سلة وزد",
           "ويب",
           "مواقع ويب "
-
         ]
       : [
           "Web Development Saudi Arabia",
@@ -88,10 +87,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "web development",
           "websites",
           "web design"
-
         ],
     
-    // 👇 خانة التحقق من جوجل (ستحتاج لإضافة الكود هنا لاحقاً)
+    // 👇 خانة التحقق من جوجل
     verification: {
             google: "8VY5s9FRpOSra0UkUC2LsdPsqXaw76uqwYwfZouil2c",    
           },
@@ -108,13 +106,18 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       },
     },
     authors: [{ name: "CodeAura Team" }],
+    
+    // 👇 التعديل الجديد (الحل لمشكلة Duplicate في جوجل)
     alternates: {
       canonical: `${baseUrl}/${lang}`,
       languages: {
-        en: `${baseUrl}/en`,
-        ar: `${baseUrl}/ar`,
+        'ar': `${baseUrl}/ar`,
+        'en': `${baseUrl}/en`,
+        // هذا السطر يخبر جوجل أن الرابط الرئيسي هو النسخة الافتراضية
+        'x-default': baseUrl, 
       },
     },
+
     openGraph: {
       title,
       description,
@@ -169,7 +172,7 @@ export default async function LangLayout({ children, params }: LayoutProps) {
         
         <Footer locale={validLocale} />
 
-        {/* 👇 العناصر العائمة والأدوات توضع هنا في النهاية لأداء أفضل */}
+        {/* العناصر العائمة والأدوات */}
         <AIChatBot />
         <FloatingContacts />
         <Analytics />
