@@ -58,6 +58,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     keywords: isArabic
       ? [
           "تصميم مواقع الكترونية في السعودية",
+          "تصميم متاجر الكترونية",
+          "تصميم مواقع ",
           "شركة برمجة متاجر الكترونية",
           "انشاء موقع تعريفي للشركات",
           "تحسين محركات البحث SEO",
@@ -65,6 +67,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "برمجة خاصة Next.js",
           "CodeAura",
           "CodeAuraweb",
+          "code aura",
+          "code aura web",
           "وكالة تسويق رقمي",
           "تطوير ويب",
           "متاجر سلة وزد",
@@ -75,7 +79,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "تصميم ويب الرياض",
           "تطوير تطبيقات اسطنبول",
           "وكالة تسويق رقمي",
-          "خدمات برمجية للشركات"
+          "خدمات برمجية للشركات",
+          "شراء مواقع الكترونية",
+          "شراء متاجر الكترونية"
         ]
       : [
           "Web Development Saudi Arabia",
@@ -84,6 +90,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "SEO Services",
           "Custom Web Design",
           "CodeAura",
+          "code aura",
+          "code aura web",
           "UI/UX Design",
           "CodeAura",
           "CodeAuraweb",
@@ -95,7 +103,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
           "web design",
           "Web Design Saudi Arabia",
           "Web Development Turkey",
-          "Global Tech Agency"
+          "Global Tech Agency",
+          "buy websites",
+          "buy e-commerce stores"
         ],
     
     // 👇 خانة التحقق من جوجل
@@ -136,7 +146,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       type: "website",
       images: [
         {
-          url: "/og-image12.png",
+          url: "/iconlogo.png",
           width: 1200,
           height: 630,
           alt: isArabic ? "خدمات كود أورا البرمجية" : "CodeAura Web Services",
@@ -147,7 +157,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-image12.png"],
+      images: ["/iconlogo.png"],
     },
     icons: {
       icon: "/icon.png",
